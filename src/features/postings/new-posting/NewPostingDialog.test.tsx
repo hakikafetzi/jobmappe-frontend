@@ -43,7 +43,7 @@ describe('NewPostingDialog', () => {
     const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
     const before = currentBackend().db.companies.length
 
-    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x')
+    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x.example')
     await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
     // Die Liste öffnet erst beim Tippen und zeigt die Treffer der Backend-Suche
     await user.click(screen.getByRole('combobox', { name: 'Firma' }))
@@ -84,11 +84,44 @@ describe('NewPostingDialog', () => {
     expect(within(listbox).queryByRole('option', { name: 'Weitere Firmen laden' })).not.toBeInTheDocument()
   })
 
-  it('meldet fehlende Pflichtfelder am Feld', async () => {
+  it('markiert die Pflichtfelder', () => {
+    renderWithApp(<NewPostingDialog onClose={() => {}} />)
+    expect(screen.getByRole('textbox', { name: 'Link zur Anzeige' })).toBeRequired()
+    expect(screen.getByRole('textbox', { name: 'Titel der Stelle' })).toBeRequired()
+    expect(screen.getByRole('combobox', { name: 'Firma' })).toHaveAttribute('aria-required', 'true')
+    expect(screen.getByRole('textbox', { name: 'Ort' })).not.toBeRequired()
+    // Hinweis unten links neben den Knöpfen
+    const footer = screen.getByRole('button', { name: 'Abbrechen' }).parentElement
+    expect(footer).toHaveTextContent('* Pflichtfeld')
+  })
+
+  it('meldet alle fehlenden Pflichtfelder am Feld', async () => {
     const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
     await user.click(screen.getByRole('button', { name: 'Stelle speichern' }))
-    expect(screen.getByRole('alert')).toHaveTextContent('Bitte den Link zur Anzeige eintragen.')
+    const alerts = screen.getAllByRole('alert').map((a) => a.textContent)
+    expect(alerts).toEqual([
+      'Bitte den Link zur Anzeige eintragen.',
+      'Bitte einen Titel eingeben.',
+      'Bitte eine Firma auswählen oder anlegen.',
+    ])
     expect(screen.getByLabelText('Link zur Anzeige')).toHaveFocus()
+
+    await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
+    expect(screen.queryByText('Bitte einen Titel eingeben.')).not.toBeInTheDocument()
+  })
+
+  it('lehnt einen Link ab, der sich nicht öffnen lässt', async () => {
+    const before = currentBackend().db.postings.length
+    const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
+    await user.type(screen.getByLabelText('Link zur Anzeige'), 'javascript:alert(1)')
+    await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
+    await user.type(screen.getByRole('combobox', { name: 'Firma' }), 'energie')
+    await user.keyboard('{Enter}')
+    await user.click(screen.getByRole('button', { name: 'Stelle speichern' }))
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Bitte einen gültigen Link eingeben')
+    expect(screen.getByLabelText('Link zur Anzeige')).toHaveFocus()
+    expect(currentBackend().db.postings).toHaveLength(before)
   })
 
   it('zeigt Feldfehler des Backends auf Deutsch am Feld', async () => {
@@ -106,7 +139,7 @@ describe('NewPostingDialog', () => {
       ),
     )
     const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
-    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x')
+    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x.example')
     await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
     await user.type(screen.getByRole('combobox', { name: 'Firma' }), 'energie')
     await user.keyboard('{Enter}')

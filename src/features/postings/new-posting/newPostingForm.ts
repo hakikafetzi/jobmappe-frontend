@@ -1,6 +1,7 @@
 import type { CreatePostingInput } from '../../../api/jobPostings'
 import { orNull } from '../../../shared/lib/format'
-import { toPostingBody } from '../posting-edit/postingForm'
+import { companyFieldErrors } from '../company-edit/companyForm'
+import { postingErrors, toPostingBody } from '../posting-edit/postingForm'
 import type { CompanyChoice } from './companyOptions'
 
 /** Weitere Angaben, falls die Firma neu angelegt wird (CompanyRequest ohne Namen). */
@@ -60,18 +61,22 @@ export const EMPTY_VALUES: NewPostingValues = {
 }
 
 /**
- * Prüft das Formular nach den Regeln des Backends und baut die Anfrage.
- * Ergebnis: entweder der erste Fehler (mit Feld zum Fokussieren) oder die fertige Eingabe.
+ * Prüft das Formular und baut die Anfrage.
+ * Ergebnis: entweder alle Feldfehler (das erste Feld wird fokussiert) oder die fertige Eingabe.
  */
 export function toCreatePostingInput(
   v: NewPostingValues,
   today: string,
-): { error: { field: NewPostingField; message: string } } | { input: CreatePostingInput } {
-  if (!v.url.trim()) return { error: { field: 'url', message: 'Bitte den Link zur Anzeige eintragen.' } }
-  if (!v.title.trim()) return { error: { field: 'title', message: 'Bitte einen Titel eingeben.' } }
-  if (!v.company) return { error: { field: 'company', message: 'Bitte eine Firma auswählen oder anlegen.' } }
-  if (v.publishedAt && v.publishedAt > today)
-    return { error: { field: 'publishedAt', message: 'Das Datum darf nicht in der Zukunft liegen.' } }
+): { errors: NewPostingFieldErrors } | { input: CreatePostingInput } {
+  const errors: NewPostingFieldErrors = postingErrors(v, today)
+  if (!v.company) errors.company = 'Bitte eine Firma auswählen oder anlegen.'
+  if (v.company?.kind === 'new') {
+    // Gleiche Regeln wie im Firmenformular; der Name steht im Feld „Firma“
+    const { name, ...rest } = companyFieldErrors({ ...v.newCompany, name: v.company.name })
+    Object.assign(errors, rest)
+    if (name) errors.company = name
+  }
+  if (!v.company || Object.keys(errors).length) return { errors }
 
   const posting = toPostingBody({ ...v, status: 'ACTIVE' })
   return {

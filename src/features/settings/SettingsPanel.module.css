@@ -1,9 +1,23 @@
-.name {
+.nameField {
   width: 240px;
 }
 
+.name {
+  width: 100%;
+}
+
+.name[aria-invalid='true'] {
+  border-color: var(--red);
+}
+
+.nameError {
+  margin-top: 6px;
+  color: var(--red);
+  font-size: 12px;
+}
+
 @media (max-width: 760px) {
-  .name {
+  .nameField {
     width: 100%;
   }
 }

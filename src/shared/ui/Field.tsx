@@ -15,29 +15,45 @@ type FieldProps = {
    * die Gruppe statt eines einzelnen Felds; die Felder brauchen eigene Namen (aria-label).
    */
   group?: boolean
+  /**
+   * Pflichtfeld: Neben dem Label steht ein Stern. Screenreader erfahren es über `required` bzw.
+   * `aria-required` am Steuerelement, das der Aufrufer setzt.
+   */
+  required?: boolean
   /** Bekommt die id für das (erste) Steuerelement. */
   children: (id: string) => ReactNode
 }
 
 /** Beschriftetes Formularfeld; verknüpft Label und Steuerelement über die id. */
-export function Field({ label, hint, error, className, id: ownId, group, children }: FieldProps) {
+export function Field({ label, hint, error, className, id: ownId, group, required, children }: FieldProps) {
   const generatedId = useId()
   const id = ownId ?? generatedId
   const labelId = `${id}-label`
+  const labelElement = group ? (
+    <span className={styles.label} id={labelId}>
+      {label}
+    </span>
+  ) : (
+    <label className={styles.label} htmlFor={id}>
+      {label}
+    </label>
+  )
   return (
     <div
-      className={cx(styles.field, className)}
+      className={cx(styles.field, !!error && styles.invalid, className)}
       role={group ? 'group' : undefined}
       aria-labelledby={group ? labelId : undefined}
     >
-      {group ? (
-        <span className={styles.label} id={labelId}>
-          {label}
-        </span>
+      {required ? (
+        // Stern neben statt im Label: Der zugängliche Name bleibt „Titel“, nicht „Titel *“
+        <div className={styles.labelRow}>
+          {labelElement}
+          <span className={styles.required} aria-hidden="true">
+            *
+          </span>
+        </div>
       ) : (
-        <label className={styles.label} htmlFor={id}>
-          {label}
-        </label>
+        labelElement
       )}
       {children(id)}
       {hint && <InfoNote className={styles.hint}>{hint}</InfoNote>}
@@ -47,6 +63,18 @@ export function Field({ label, hint, error, className, id: ownId, group, childre
         </div>
       )}
     </div>
+  )
+}
+
+/**
+ * Hinweis über Formularen mit Pflichtfeldern: erklärt den Stern an den Labels. Für Screenreader
+ * versteckt, die erfahren es am Feld selbst.
+ */
+export function RequiredNote() {
+  return (
+    <p className={styles.requiredNote} aria-hidden="true">
+      <span className={styles.required}>*</span> Pflichtfeld
+    </p>
   )
 }
 

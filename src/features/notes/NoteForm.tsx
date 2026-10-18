@@ -182,8 +182,9 @@ export function NoteForm({
           <input
             id={titleId}
             className={styles.title}
-            placeholder="Titel"
+            placeholder="Titel (Pflicht)"
             aria-label="Titel der Notiz"
+            aria-required="true"
             maxLength={255}
             autoFocus={!note}
             data-autofocus={!note || undefined}

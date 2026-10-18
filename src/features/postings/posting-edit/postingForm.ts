@@ -1,5 +1,7 @@
 import type { JobPostingDetail, JobPostingRequest, JobPostingStatus } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
+import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
+import { isJobTitle, isLocation } from '../../../shared/lib/validation'
 
 export type PostingFormValues = {
   url: string
@@ -33,26 +35,42 @@ export function toFormValues(p: JobPostingDetail): PostingFormValues {
 }
 
 /**
- * Prüft das Formular nach den Regeln des Backends und baut den PUT-Body.
+ * Feldfehler der Stellenangaben (für Bearbeiten und Erfassen): Pflichtfelder wie im Backend, dazu
+ * Formatregeln und ein öffnbarer Link — er wird später direkt als `href` verwendet.
+ */
+export function postingErrors(
+  v: Pick<PostingFormValues, 'url' | 'title' | 'location' | 'publishedAt'>,
+  today: string,
+): PostingFieldErrors {
+  const errors: PostingFieldErrors = {}
+  if (!v.title.trim()) errors.title = 'Bitte einen Titel eingeben.'
+  else if (!isJobTitle(v.title)) errors.title = 'Bitte einen aussagekräftigen Titel eingeben.'
+  if (!v.url.trim()) errors.url = 'Bitte den Link zur Anzeige eintragen.'
+  else if (!isWebUrl(normalizeUrl(v.url))) errors.url = INVALID_URL
+  if (v.location.trim() && !isLocation(v.location))
+    errors.location = 'Bitte einen Ort eingeben (z. B. Frankfurt am Main oder Remote).'
+  if (v.publishedAt && v.publishedAt > today)
+    errors.publishedAt = 'Das Datum darf nicht in der Zukunft liegen.'
+  return errors
+}
+
+/**
+ * Prüft das Formular und baut den PUT-Body; bei Fehlern kommen alle Feldfehler zurück.
  * PUT ersetzt alle Angaben: leere optionale Felder werden als null gesendet und damit entfernt.
  */
 export function toPostingRequest(
   v: PostingFormValues,
   today: string,
-): { error: { field: PostingField; message: string } } | { body: JobPostingRequest } {
-  if (!v.url.trim()) return { error: { field: 'url', message: 'Bitte den Link zur Anzeige eintragen.' } }
-  if (!v.title.trim()) return { error: { field: 'title', message: 'Bitte einen Titel eingeben.' } }
-  if (v.publishedAt && v.publishedAt > today)
-    return { error: { field: 'publishedAt', message: 'Das Datum darf nicht in der Zukunft liegen.' } }
-
-  return { body: toPostingBody(v) }
+): { errors: PostingFieldErrors } | { body: JobPostingRequest } {
+  const errors = postingErrors(v, today)
+  return Object.keys(errors).length ? { errors } : { body: toPostingBody(v) }
 }
 
 /** Body aus geprüften Formularwerten; leere optionale Felder werden null. */
 export function toPostingBody(v: PostingFormValues): JobPostingRequest {
   return {
     title: v.title.trim(),
-    url: v.url.trim(),
+    url: normalizeUrl(v.url),
     location: orNull(v.location),
     publishedAt: v.publishedAt || null,
     description: orNull(v.description),

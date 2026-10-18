@@ -8,7 +8,7 @@ import { toIsoDate } from '../../../shared/lib/format'
 import { Button } from '../../../shared/ui/Button'
 import { ModalDialog } from '../../../shared/ui/Dialog'
 import { DateInput } from '../../../shared/ui/DateInput'
-import { Field, Select, TextInput } from '../../../shared/ui/Field'
+import { Field, RequiredNote, Select, TextInput } from '../../../shared/ui/Field'
 import { useToast } from '../../../shared/ui/toastContext'
 import styles from './PostingEditDialog.module.css'
 import {
@@ -31,8 +31,10 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
   const idOf = (field: PostingField) => `${prefix}-${field}`
   const [today] = useState(() => toIsoDate(new Date()))
 
-  const set = <K extends keyof PostingFormValues>(key: K, value: PostingFormValues[K]) =>
+  const set = <K extends keyof PostingFormValues>(key: K, value: PostingFormValues[K]) => {
     setValues((v) => ({ ...v, [key]: value }))
+    setErrors((e) => ({ ...e, [key]: undefined }))
+  }
 
   const showErrors = (next: PostingFieldErrors) => {
     setErrors(next)
@@ -42,8 +44,8 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
 
   const save = () => {
     const result = toPostingRequest(values, today)
-    if ('error' in result) {
-      showErrors({ [result.error.field]: result.error.message })
+    if ('errors' in result) {
+      showErrors(result.errors)
       return
     }
     setErrors({})
@@ -67,6 +69,7 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
       subtitle={posting.company.name}
       size="wide"
       onClose={onClose}
+      footerStart={<RequiredNote />}
       footer={
         <>
           <Button onClick={onClose}>Abbrechen</Button>
@@ -83,10 +86,12 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
           save()
         }}
       >
-        <Field label="Titel der Stelle" id={idOf('title')} error={errorFor('title')}>
+        <Field label="Titel der Stelle" id={idOf('title')} error={errorFor('title')} required>
           {(id) => (
             <TextInput
               id={id}
+              required
+              placeholder="z. B. Junior Java Entwickler (m/w/d)"
               autoFocus
               maxLength={255}
               value={values.title}
@@ -94,12 +99,13 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
             />
           )}
         </Field>
-        <Field label="Link zur Anzeige" id={idOf('url')} error={errorFor('url')}>
+        <Field label="Link zur Anzeige" id={idOf('url')} error={errorFor('url')} required>
           {(id) => (
             <TextInput
               id={id}
               type="url"
-              placeholder="https://…"
+              required
+              placeholder="z. B. https://karriere.firmenname.de/jobs/1234"
               maxLength={1000}
               value={values.url}
               onChange={(e) => set('url', e.target.value)}
@@ -111,7 +117,7 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
             {(id) => (
               <TextInput
                 id={id}
-                placeholder="Frankfurt am Main"
+                placeholder="z. B. Frankfurt am Main oder Remote"
                 maxLength={255}
                 value={values.location}
                 onChange={(e) => set('location', e.target.value)}
@@ -151,7 +157,7 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
               initialValue={values.description}
               onChange={(md) => set('description', md)}
               label="Stellenbeschreibung"
-              placeholder="Text der Anzeige einfügen"
+              placeholder="Text der Stellenanzeige hier einfügen oder abtippen"
             />
           )}
         </Field>

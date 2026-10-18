@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { JobPostingDetail } from '../../../api/types'
+import { INVALID_URL } from '../../../shared/lib/url'
 import { toFormValues, toPostingRequest } from './postingForm'
 
 const posting: JobPostingDetail = {
@@ -15,7 +16,7 @@ const posting: JobPostingDetail = {
   title: 'Dev',
   description: null,
   location: 'Frankfurt',
-  url: 'https://x',
+  url: 'https://x.example',
   status: 'ACTIVE',
   hasApplication: false,
   applicationId: null,
@@ -27,7 +28,7 @@ const posting: JobPostingDetail = {
 describe('Stelle bearbeiten: Formular → Anfrage', () => {
   it('übernimmt die Stelle ins Formular', () => {
     expect(toFormValues(posting)).toEqual({
-      url: 'https://x',
+      url: 'https://x.example',
       title: 'Dev',
       location: 'Frankfurt',
       publishedAt: '2026-08-21',
@@ -38,10 +39,29 @@ describe('Stelle bearbeiten: Formular → Anfrage', () => {
 
   it('meldet fehlende Pflichtfelder und Daten in der Zukunft', () => {
     const v = toFormValues(posting)
-    expect(toPostingRequest({ ...v, url: ' ' }, '2026-09-01')).toMatchObject({ error: { field: 'url' } })
-    expect(toPostingRequest({ ...v, title: '' }, '2026-09-01')).toMatchObject({ error: { field: 'title' } })
-    expect(toPostingRequest({ ...v, publishedAt: '2026-09-02' }, '2026-09-01')).toMatchObject({
-      error: { field: 'publishedAt' },
+    expect(toPostingRequest({ ...v, url: ' ', title: '' }, '2026-09-01')).toEqual({
+      errors: { url: 'Bitte den Link zur Anzeige eintragen.', title: 'Bitte einen Titel eingeben.' },
+    })
+    expect(toPostingRequest({ ...v, publishedAt: '2026-09-02' }, '2026-09-01')).toEqual({
+      errors: { publishedAt: 'Das Datum darf nicht in der Zukunft liegen.' },
+    })
+  })
+
+  it('prüft Titel und Ort auf sinnvolle Eingaben', () => {
+    const v = toFormValues(posting)
+    expect(toPostingRequest({ ...v, title: '1', location: '123' }, '2026-09-01')).toEqual({
+      errors: {
+        title: 'Bitte einen aussagekräftigen Titel eingeben.',
+        location: 'Bitte einen Ort eingeben (z. B. Frankfurt am Main oder Remote).',
+      },
+    })
+  })
+
+  it('verlangt einen öffnbaren Link', () => {
+    const v = toFormValues(posting)
+    expect(toPostingRequest({ ...v, url: 'ftp://x' }, '2026-09-01')).toEqual({ errors: { url: INVALID_URL } })
+    expect(toPostingRequest({ ...v, url: ' firma.example/job ' }, '2026-09-01')).toMatchObject({
+      body: { url: 'https://firma.example/job' },
     })
   })
 
@@ -56,7 +76,7 @@ describe('Stelle bearbeiten: Formular → Anfrage', () => {
     expect(toPostingRequest(v, '2026-09-01')).toEqual({
       body: {
         title: 'Senior Dev',
-        url: 'https://x',
+        url: 'https://x.example',
         location: null,
         publishedAt: null,
         description: null,

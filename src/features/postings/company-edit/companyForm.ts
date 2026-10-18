@@ -1,7 +1,10 @@
 import type { CompanyRequest, CompanyResponse } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
+import { INVALID_POSTAL_CODE, isPostalCode } from '../../../shared/lib/postalCode'
+import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
+import { isCity, isCompanyName, isStreet } from '../../../shared/lib/validation'
 
-type CompanyFormValues = {
+export type CompanyFormValues = {
   name: string
   website: string
   street: string
@@ -39,15 +42,35 @@ export function toFormValues(c: CompanyResponse): CompanyFormValues {
 }
 
 /**
- * Baut den Body für POST/PUT. PUT ersetzt alle Angaben: leere Felder werden als null gesendet und
- * damit entfernt (der Vertrag verbietet Strings nur aus Leerzeichen).
+ * Feldfehler der Firmenangaben (auch für die neue Firma in „Stelle erfassen“). Optionale Felder
+ * werden nur geprüft, wenn etwas drinsteht. Die Webseite wird gespeichert wie eingegeben
+ * (z. B. „firma.de“), muss sich aber öffnen lassen.
  */
-export function toCompanyRequest(v: CompanyFormValues): { error: string } | { body: CompanyRequest } {
-  const name = v.name.trim()
-  if (!name) return { error: 'Bitte einen Namen eingeben.' }
+export function companyFieldErrors(v: CompanyFormValues): CompanyFieldErrors {
+  const errors: CompanyFieldErrors = {}
+  const filled = (value: string) => value.trim() !== ''
+  if (!filled(v.name)) errors.name = 'Bitte einen Namen eingeben.'
+  else if (!isCompanyName(v.name)) errors.name = 'Bitte einen gültigen Firmennamen eingeben.'
+  if (filled(v.website) && !isWebUrl(normalizeUrl(v.website))) errors.website = INVALID_URL
+  if (filled(v.street) && !isStreet(v.street))
+    errors.street = 'Bitte Straße und Hausnummer angeben (z. B. Musterstraße 12).'
+  if (filled(v.postalCode) && !isPostalCode(v.postalCode)) errors.postalCode = INVALID_POSTAL_CODE
+  if (filled(v.city) && !isCity(v.city)) errors.city = 'Bitte einen gültigen Ortsnamen eingeben.'
+  return errors
+}
+
+/**
+ * Prüft das Formular und baut den Body für POST/PUT. PUT ersetzt alle Angaben: leere Felder werden
+ * als null gesendet und damit entfernt (der Vertrag verbietet Strings nur aus Leerzeichen).
+ */
+export function toCompanyRequest(
+  v: CompanyFormValues,
+): { errors: CompanyFieldErrors } | { body: CompanyRequest } {
+  const errors = companyFieldErrors(v)
+  if (Object.keys(errors).length) return { errors }
   return {
     body: {
-      name,
+      name: v.name.trim(),
       website: orNull(v.website),
       street: orNull(v.street),
       postalCode: orNull(v.postalCode),

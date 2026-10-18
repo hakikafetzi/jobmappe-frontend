@@ -372,4 +372,9 @@
   .footer > button {
     flex: 1;
   }
+
+  /* Hinweise links (z. B. „* Pflichtfeld“) über den Knöpfen statt daneben */
+  .footerStart {
+    flex-basis: 100%;
+  }
 }

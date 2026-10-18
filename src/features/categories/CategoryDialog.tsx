@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { serverFieldErrors } from '../../api/errors'
 import { saveCategoryMeta, useSaveCategory } from '../../api/noteCategories'
 import type { NoteCategory } from '../../api/types'
+import { isFolderName } from '../../shared/lib/validation'
 import { Button } from '../../shared/ui/Button'
 import { ModalDialog } from '../../shared/ui/Dialog'
-import { Field, TextInput } from '../../shared/ui/Field'
+import { Field, RequiredNote, TextInput } from '../../shared/ui/Field'
 import { useToast } from '../../shared/ui/toastContext'
 
 /** Ordner anlegen (category = null) oder umbenennen. */
@@ -26,6 +27,10 @@ export function CategoryDialog({
       setError('Bitte einen Namen eingeben.')
       return
     }
+    if (!isFolderName(trimmed)) {
+      setError('Bitte einen gültigen Namen eingeben.')
+      return
+    }
     save.mutate(
       { id: category?.id ?? null, body: { name: trimmed } },
       {
@@ -43,6 +48,7 @@ export function CategoryDialog({
       title={category ? 'Ordner umbenennen' : 'Neuer Ordner'}
       size="small"
       onClose={onClose}
+      footerStart={<RequiredNote />}
       footer={
         <>
           <Button onClick={onClose}>Abbrechen</Button>
@@ -53,16 +59,18 @@ export function CategoryDialog({
       }
     >
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault()
           submit()
         }}
       >
-        <Field label="Name" error={error}>
+        <Field label="Name" error={error} required>
           {(id) => (
             <TextInput
               id={id}
               autoFocus
+              required
               placeholder="z. B. Gehaltsverhandlung"
               maxLength={255}
               value={name}

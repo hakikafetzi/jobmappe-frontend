@@ -5,7 +5,7 @@ import type { NewCompanyField, NewCompanyValues } from './newPostingForm'
 type Props = {
   name: string
   values: NewCompanyValues
-  onChange: (values: NewCompanyValues) => void
+  onChange: (field: NewCompanyField, value: string) => void
   errors: Partial<Record<NewCompanyField, string>>
   /** id des Eingabefelds (zum Fokussieren bei Fehlern) */
   idOf: (field: NewCompanyField) => string
@@ -13,7 +13,6 @@ type Props = {
 
 /** Optionale Angaben zur Firma, die zusammen mit der Stelle neu angelegt wird. */
 export function NewCompanyFields({ name, values, onChange, errors, idOf }: Props) {
-  const set = (key: NewCompanyField, value: string) => onChange({ ...values, [key]: value })
   return (
     <fieldset className={styles.group}>
       <legend className={styles.legend}>Neue Firma „{name}“</legend>
@@ -21,10 +20,10 @@ export function NewCompanyFields({ name, values, onChange, errors, idOf }: Props
         {(id) => (
           <TextInput
             id={id}
-            placeholder="beispiel.de"
+            placeholder="z. B. www.firmenname.de"
             maxLength={255}
             value={values.website}
-            onChange={(e) => set('website', e.target.value)}
+            onChange={(e) => onChange('website', e.target.value)}
           />
         )}
       </Field>
@@ -33,11 +32,11 @@ export function NewCompanyFields({ name, values, onChange, errors, idOf }: Props
           {(id) => (
             <TextInput
               id={id}
-              placeholder="Musterstraße 12"
+              placeholder="z. B. Musterstraße 12"
               maxLength={255}
               autoComplete="off"
               value={values.street}
-              onChange={(e) => set('street', e.target.value)}
+              onChange={(e) => onChange('street', e.target.value)}
             />
           )}
         </Field>
@@ -45,12 +44,12 @@ export function NewCompanyFields({ name, values, onChange, errors, idOf }: Props
           {(id) => (
             <TextInput
               id={id}
-              placeholder="60311"
+              placeholder="z. B. 60311"
               maxLength={20}
               inputMode="numeric"
               autoComplete="off"
               value={values.postalCode}
-              onChange={(e) => set('postalCode', e.target.value)}
+              onChange={(e) => onChange('postalCode', e.target.value)}
             />
           )}
         </Field>
@@ -58,11 +57,11 @@ export function NewCompanyFields({ name, values, onChange, errors, idOf }: Props
           {(id) => (
             <TextInput
               id={id}
-              placeholder="Frankfurt am Main"
+              placeholder="z. B. Frankfurt am Main"
               maxLength={255}
               autoComplete="off"
               value={values.city}
-              onChange={(e) => set('city', e.target.value)}
+              onChange={(e) => onChange('city', e.target.value)}
             />
           )}
         </Field>

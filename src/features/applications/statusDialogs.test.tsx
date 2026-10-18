@@ -35,6 +35,25 @@ describe('MarkAppliedDialog', () => {
     expect(onClose).toHaveBeenCalled()
     expect(stored(draft.id)?.status).toBe('IN_PROGRESS')
   })
+
+  it('verlangt einen öffnbaren Link und ergänzt https://', async () => {
+    const onClose = vi.fn<() => void>()
+    const { user } = renderWithApp(<MarkAppliedDialog app={draft} onClose={onClose} />)
+    const link = screen.getByLabelText('Link zum Bewerbungsportal')
+
+    await user.type(link, 'kein link')
+    await user.click(screen.getByRole('button', { name: 'Als beworben markieren' }))
+    expect(screen.getByRole('alert')).toHaveTextContent('Bitte einen gültigen Link eingeben')
+    expect(link).toHaveFocus()
+    expect(stored(draft.id)?.status).toBe('IN_PROGRESS')
+
+    await user.clear(link)
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    await user.type(link, 'portal.example/status')
+    await user.click(screen.getByRole('button', { name: 'Als beworben markieren' }))
+    await waitFor(() => expect(stored(draft.id)?.portalUrl).toBe('https://portal.example/status'))
+    expect(onClose).toHaveBeenCalled()
+  })
 })
 
 describe('ResetToDraftDialog', () => {
