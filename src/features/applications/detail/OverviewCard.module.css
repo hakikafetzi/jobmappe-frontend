@@ -1,0 +1,63 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.head + .head,
+.info + .head {
+  border-top: 1px solid var(--hair);
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.info {
+  padding: 18px 20px;
+}
+
+.via {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.description {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 22px 24px;
+}
+
+@media (max-width: 760px) {
+  .info {
+    padding: 16px;
+  }
+
+  .links {
+    gap: 12px;
+  }
+}

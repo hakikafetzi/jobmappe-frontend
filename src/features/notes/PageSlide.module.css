@@ -1,0 +1,63 @@
+/* Ausgehende und neue Seite liegen in derselben Rasterzelle übereinander. Wie ein Karussell gleiten
+   beide um die volle Breite (plus Abstand) nebeneinander. */
+.slide {
+  --shift: calc(100% + 24px);
+
+  display: grid;
+}
+
+.layer {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.outLeft,
+.outRight {
+  pointer-events: none;
+  animation: 380ms var(--ease-out) both;
+}
+
+.outLeft {
+  animation-name: slide-out-left;
+}
+
+.outRight {
+  animation-name: slide-out-right;
+}
+
+.inRight,
+.inLeft {
+  animation: 380ms var(--ease-out) both;
+}
+
+.inRight {
+  animation-name: slide-in-right;
+}
+
+.inLeft {
+  animation-name: slide-in-left;
+}
+
+@keyframes slide-out-left {
+  to {
+    transform: translateX(calc(-1 * var(--shift)));
+  }
+}
+
+@keyframes slide-out-right {
+  to {
+    transform: translateX(var(--shift));
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(var(--shift));
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(calc(-1 * var(--shift)));
+  }
+}

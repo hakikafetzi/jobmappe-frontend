@@ -1,0 +1,16 @@
+.address {
+  display: grid;
+  grid-template-columns: minmax(0, 0.4fr) minmax(0, 1fr);
+  gap: 0 16px;
+}
+
+.street {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 760px) {
+  .address {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

@@ -1,0 +1,125 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.pills {
+  /* Eigene Ebene: Markierung liegt über den Pillenflächen, unter der Beschriftung */
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.pill {
+  position: relative;
+  flex-shrink: 0;
+  padding: 7px 15px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 12.8px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.pill:hover {
+  color: var(--ink);
+}
+
+.label {
+  position: relative;
+  z-index: 2;
+}
+
+.pill:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.pill[aria-pressed='true'] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Markierung der aktiven Pille; gleitet beim Wechsel an Position und Breite der neuen */
+.indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: var(--w, 0);
+  height: var(--h, 0);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  pointer-events: none;
+  transform: translateX(var(--x, 0));
+  transition:
+    transform 0.38s var(--ease-out),
+    width 0.38s var(--ease-out);
+}
+
+.indicator[data-instant] {
+  transition: none;
+}
+
+.meta {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.total {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink-3);
+}
+
+.sortSelect {
+  padding: 2px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--accent);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sortSelect:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+@media (max-width: 760px) {
+  .bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .pills {
+    flex: 1 1 100%;
+  }
+
+  .meta {
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,58 @@
+.iconButton {
+  display: inline-flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.iconButton:disabled {
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.iconButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.subtle {
+  opacity: 0.55;
+}
+
+.subtle:hover,
+.subtle:focus-visible {
+  opacity: 1;
+}
+
+.md {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+
+@media (max-width: 760px) {
+  .iconButton {
+    min-width: 34px;
+    min-height: 34px;
+  }
+}

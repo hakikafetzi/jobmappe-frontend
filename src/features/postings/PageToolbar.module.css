@@ -1,0 +1,218 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 780px;
+  margin: 0 auto;
+  /* Bleibt beim Seitenwechsel stehen, nur die Knöpfe blenden über */
+  view-transition-name: jm-toolbar;
+  /* Der Name macht die Zeile (wie den Inhalt darunter) zur eigenen Stapelebene: ohne z-index
+     läge das Menü von „+ Stelle“ unter der Detailkarte */
+  position: relative;
+  z-index: 10;
+}
+
+/* Wie der Knopf „+ Stelle“ (AddPostingButton) */
+.action {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 52px;
+  padding: 0 16px 0 14px;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-xl);
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action:hover {
+  background: var(--accent-hover);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.action svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Gleiche Höhe wie die Hauptaktion, aber zurückhaltend */
+.switch {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(26, 29, 35, 0.06);
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  /* Auch als <button> (PageSwitchButton) */
+  cursor: pointer;
+}
+
+.switch:hover {
+  background: var(--accent-soft);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.switch svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+}
+
+/* ---------- Seitenwechsel Stellen ↔ Firmen (View Transitions) ----------
+   Beide Seiten bestehen aus denselben Bausteinen; gleich benannte Elemente verwandeln sich:
+   - jm-toolbar: bleibt stehen, die Knöpfe tauschen ohne Überblenden
+   - jm-filters / jm-list-head: Filter der Stellen bzw. Überschrift der Firmenliste — gibt es
+     nur auf einer Seite; blenden aus und schieben sich dabei nach oben
+   - jm-detail: die Detailkarte rutscht an ihre neue Position, der Inhalt blendet über
+   - .jm-card: Listenkarten gleichen Indexes wandern und nehmen die neue Höhe an; Karten ohne
+     Gegenstück gleiten von unten herein bzw. blenden aus
+   - jm-pager: Fläche mit der Fußleiste unter der Liste; steht still und liegt über allen Karten,
+     sodass die Karten dahinter gleiten
+   - jm-dock: mobiles Dock (nur während des Wechsels benannt, pageTransition.ts); ebenso */
+::view-transition-group(jm-detail),
+::view-transition-group(.jm-card) {
+  animation-duration: 420ms;
+  animation-timing-function: var(--ease-out);
+}
+
+/* Karten auf ihren Rahmen beschneiden: eine hohe Stellen-Karte ragt beim Schrumpfen sonst unten
+   aus der kleineren Firmen-Karte heraus */
+::view-transition-group(.jm-card) {
+  overflow: clip;
+  border-radius: var(--r-xl);
+}
+
+/* Alter Inhalt verschwindet schnell, der neue folgt kurz danach (kein langes Überlagern) */
+::view-transition-old(jm-detail),
+::view-transition-old(.jm-card) {
+  animation: 140ms ease-in both fade-out;
+}
+
+::view-transition-new(jm-detail),
+::view-transition-new(.jm-card) {
+  animation: 260ms var(--ease-out) 90ms both fade-in;
+}
+
+/* Inhalt der Detailkarte oben bündig überblenden statt ihn auf die neue Höhe zu strecken */
+::view-transition-old(jm-detail),
+::view-transition-new(jm-detail) {
+  height: 100%;
+  object-fit: none;
+  object-position: top;
+}
+
+::view-transition-old(jm-filters),
+::view-transition-old(jm-list-head) {
+  animation: 140ms ease-in both fade-up-out;
+}
+
+::view-transition-new(jm-filters),
+::view-transition-new(jm-list-head) {
+  animation: 320ms var(--ease-out) 120ms both fade-down-in;
+}
+
+/* Karten ohne Gegenstück auf der anderen Seite */
+::view-transition-new(.jm-card):only-child {
+  animation: 360ms var(--ease-out) 90ms both rise-in;
+}
+
+::view-transition-old(.jm-card):only-child {
+  animation: 140ms ease-in both fade-out;
+}
+
+/* Suchzeile und Pager wechseln ohne Überblenden (unterschiedlich breite Inhalte gäben
+   Geisterbilder) */
+::view-transition-group(jm-toolbar),
+::view-transition-old(jm-toolbar),
+::view-transition-new(jm-toolbar),
+::view-transition-group(jm-pager),
+::view-transition-old(jm-pager),
+::view-transition-new(jm-pager),
+::view-transition-group(jm-dock),
+::view-transition-old(jm-dock),
+::view-transition-new(jm-dock) {
+  animation: none;
+}
+
+::view-transition-old(jm-toolbar),
+::view-transition-old(jm-pager),
+::view-transition-old(jm-dock) {
+  display: none;
+}
+
+/* Ausgehende Karten ohne Gegenstück lägen sonst obenauf (sie werden zuletzt eingereiht) */
+::view-transition-group(jm-pager),
+::view-transition-group(jm-dock) {
+  z-index: 1;
+}
+
+@keyframes fade-up-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes fade-down-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
+}

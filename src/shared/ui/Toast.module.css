@@ -1,0 +1,75 @@
+.region {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 16px;
+  border-radius: var(--r);
+  background: var(--ink);
+  color: var(--canvas);
+  box-shadow: var(--shadow-md);
+  font-size: 12.5px;
+  font-weight: 500;
+  pointer-events: auto;
+  animation: toastIn 0.2s ease;
+}
+
+.leaving {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+}
+
+.mark {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.error .mark {
+  color: var(--red);
+}
+
+.action {
+  margin-left: 4px;
+  padding: 0 2px;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.action:hover {
+  text-decoration: underline;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .region {
+    bottom: calc(var(--dock-space) + 12px);
+  }
+}

@@ -1,0 +1,156 @@
+/* Variante „boxed“: Rahmen mit Toolbar oben (Stellenbeschreibung) */
+.boxed {
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+
+.boxed:focus-within {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.boxed .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.boxed .area {
+  min-height: 230px;
+  max-height: 40vh;
+  padding: 14px 16px;
+  overflow-y: auto;
+  font-size: 13.6px;
+}
+
+.boxed .area.empty::before {
+  top: 14px;
+  left: 16px;
+}
+
+/* Variante „document“: schwebende Toolbar, großzügige Schreibfläche (Notizen) */
+.document .toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  width: max-content;
+  max-width: 100%;
+  justify-content: center;
+  margin: 18px auto 14px;
+  padding: 4px;
+  border: 1px solid var(--hair-2);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+
+.document .tool {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 7px;
+}
+
+.document .separator {
+  height: 18px;
+}
+
+.document {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.document .area {
+  flex: 1;
+  min-height: 320px;
+  padding: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  color: var(--ink-2);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.tool:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.tool:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.separator {
+  width: 1px;
+  height: 16px;
+  margin: 0 5px;
+  background: var(--hair);
+}
+
+.area {
+  position: relative;
+  color: var(--ink);
+  line-height: 1.72;
+  cursor: text;
+  outline: none;
+}
+
+.area.empty::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  top: 4px;
+  left: 0;
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.h1 {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.h2 {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.italic {
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.h3 {
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.strike {
+  text-decoration: line-through;
+}
+
+.tasks {
+  font-size: 14px;
+}

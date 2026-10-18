@@ -1,0 +1,112 @@
+/* Notizblatt mit Eselsohr oben rechts: die Ecke wird abgeschnitten, ::after legt die Falte darüber.
+   --sheet-bg / --sheet-fold setzt die umgebende Zeile beim Darüberfahren. */
+.sheet {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  background: var(--sheet-bg, var(--surface-3));
+  clip-path: polygon(0 0, calc(100% - var(--fold)) 0, 100% var(--fold), 100% 100%, 0 100%);
+  transition: background 0.15s;
+}
+
+.sheet::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--fold);
+  height: var(--fold);
+  background: var(--sheet-fold, var(--hair));
+}
+
+.line {
+  display: block;
+  flex-shrink: 0;
+  width: var(--w);
+}
+
+/* Erste Zeile wie eine Überschrift */
+.line:first-child {
+  width: calc(var(--w) * 0.6);
+}
+
+/* Galerie-Karte */
+.lg {
+  --fold: 12px;
+
+  gap: 6px;
+  width: 56px;
+  height: 72px;
+  padding: 12px 9px 0;
+  border-radius: 6px;
+}
+
+.lg::after {
+  border-bottom-left-radius: 3px;
+}
+
+.lg .line {
+  height: 3px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--ink-3) 30%, transparent);
+}
+
+.lg .line:first-child {
+  height: 5px;
+  margin-bottom: 2px;
+  background: color-mix(in srgb, var(--ink-3) 55%, transparent);
+}
+
+/* Notizliste im Vollbild */
+.md {
+  --fold: 9px;
+
+  gap: 5px;
+  width: 36px;
+  height: 46px;
+  padding: 10px 7px 0;
+  border-radius: 5px;
+}
+
+.md::after {
+  border-bottom-left-radius: 2px;
+}
+
+.md .line {
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--ink-3) 35%, transparent);
+}
+
+.md .line:first-child {
+  height: 4px;
+  margin-bottom: 1px;
+  background: color-mix(in srgb, var(--ink-3) 60%, transparent);
+}
+
+/* Zeilen der Tabelle */
+.sm {
+  --fold: 7px;
+
+  gap: 4px;
+  width: 28px;
+  height: 36px;
+  padding: 8px 5px 0;
+  border-radius: 4px;
+}
+
+.sm::after {
+  border-bottom-left-radius: 2px;
+}
+
+.sm .line {
+  height: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--ink-3) 35%, transparent);
+}
+
+.sm .line:first-child {
+  height: 3px;
+  background: color-mix(in srgb, var(--ink-3) 60%, transparent);
+}

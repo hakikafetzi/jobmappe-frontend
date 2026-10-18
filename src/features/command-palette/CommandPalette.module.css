@@ -1,0 +1,265 @@
+.bar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 8px 16px 8px 18px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.barIcon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--ink-3);
+}
+
+.chip {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2px;
+  height: 28px;
+  padding: 0 4px 0 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chipClose {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.chipClose svg {
+  width: 10px;
+  height: 10px;
+}
+
+.chipClose:hover {
+  background: var(--surface);
+}
+
+.chipClose:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ink);
+  font-size: 16px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--ink-3);
+}
+
+.spinner {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--hair);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cancel {
+  display: none;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.groupLabel {
+  padding: 10px 12px 4px;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 42px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--r-lg);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Beim Öffnen: Einträge rollen nacheinander herein (höchstens die ersten zwölf gestaffelt) */
+.intro .option,
+.intro .groupLabel {
+  animation: optionIn 0.32s var(--ease-out) both;
+  animation-delay: calc(80ms + min(var(--i, 0), 12) * 22ms);
+}
+
+@keyframes optionIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.option[aria-selected='true'] {
+  background: var(--accent-soft);
+}
+
+.option[aria-selected='true'] .icon {
+  color: var(--accent);
+}
+
+.icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 20px;
+  color: var(--ink-3);
+}
+
+.icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sub {
+  overflow: hidden;
+  color: var(--ink-3);
+  font-size: 12.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hint {
+  flex-shrink: 0;
+  color: var(--ink-3);
+  font-size: 12.5px;
+}
+
+.group {
+  flex-shrink: 0;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 1px 5px;
+  border: 1px solid var(--hair);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+}
+
+.empty {
+  padding: 22px 16px;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--hair);
+  background: var(--surface-2);
+  color: var(--ink-3);
+  font-size: 11.5px;
+}
+
+.footer .kbd {
+  margin-right: 3px;
+}
+
+@media (max-width: 760px) {
+  .bar {
+    padding: 8px 8px 8px 16px;
+  }
+
+  .cancel {
+    display: block;
+    flex-shrink: 0;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    color: var(--accent);
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .option {
+    min-height: 48px;
+  }
+
+  .kbd,
+  .footer {
+    display: none;
+  }
+}

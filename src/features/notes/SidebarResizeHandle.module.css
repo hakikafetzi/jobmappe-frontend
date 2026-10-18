@@ -1,0 +1,41 @@
+/* Griff rechts neben der Trennlinie zwischen Liste und Notiz (links = Breite der Liste), gestaltet wie
+   der Griff der Assistent-Leiste im Editor: kurzer Strich mit etwas Abstand zur Linie, beim Überfahren
+   länger und blau. Die Fläche reicht bis an die Linie, damit man ihn leicht trifft. */
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--sidebar-w) - 2px);
+  width: 16px;
+  z-index: 4;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.handle::after {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  width: 4px;
+  height: 44px;
+  margin-top: -22px;
+  border-radius: 2px;
+  background: var(--hair);
+  content: '';
+  transition:
+    height 0.15s,
+    margin-top 0.15s,
+    background-color 0.15s;
+}
+
+.handle:hover::after,
+.handle:focus-visible::after,
+.handle:active::after {
+  height: 64px;
+  margin-top: -32px;
+  background: var(--accent);
+}
+
+.handle:focus-visible {
+  outline: none;
+}

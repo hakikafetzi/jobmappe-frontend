@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="JobMappe">
+  <rect width="32" height="32" rx="8" fill="#2B5CE6"/>
+  <path d="M7 12.5c0-1.4 1.1-2.5 2.5-2.5H14l2 2h7c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2V12.5Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
+  <path d="M12.5 10V8.7c0-1.2 1-2.2 2.2-2.2h2.6c1.2 0 2.2 1 2.2 2.2V10M7 17h18" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/>
+  <rect x="14" y="15.2" width="4" height="4" rx="1.2" fill="#2B5CE6" stroke="#fff" stroke-width="1.6"/>
+</svg>

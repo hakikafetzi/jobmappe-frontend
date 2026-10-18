@@ -1,0 +1,42 @@
+.hero {
+  margin-bottom: 18px;
+  padding: 28px 32px;
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  background: linear-gradient(120deg, var(--accent-soft) 0%, var(--surface) 62%);
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+
+.greeting {
+  margin-top: 8px;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    padding: 20px;
+  }
+
+  .greeting {
+    font-size: 27px;
+  }
+}

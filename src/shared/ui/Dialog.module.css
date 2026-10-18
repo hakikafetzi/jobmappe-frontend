@@ -1,0 +1,375 @@
+/* Natives <dialog> als Modal. Mobil (≤ 760 px) öffnet es sich als eigene Seite. */
+.dialog {
+  width: calc(100% - 40px);
+  max-width: 560px;
+  max-height: calc(100dvh - 96px);
+  margin: 48px auto auto;
+  padding: 0;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-2xl);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog::backdrop {
+  background: var(--overlay);
+  /* Seite dahinter leicht unscharf; blendet weich ein */
+  backdrop-filter: blur(2px);
+  animation: backdropIn 0.3s var(--ease-out);
+}
+
+@keyframes backdropIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+}
+
+/* ::backdrop erfasst die globale Abschaltung in base.css (*, ::before, ::after) nicht */
+@media (prefers-reduced-motion: reduce) {
+  .dialog::backdrop {
+    animation: none;
+  }
+}
+
+:root[data-motion='off'] .dialog::backdrop {
+  animation: none;
+}
+
+.narrow {
+  max-width: 460px;
+}
+
+.small {
+  max-width: 420px;
+}
+
+.medium {
+  max-width: 500px;
+}
+
+.form {
+  max-width: 680px;
+}
+
+.wide {
+  max-width: 760px;
+}
+
+/* Command Palette: weiter oben, Höhe folgt dem Inhalt. Federt beim Öffnen auf (Spring mit leichtem
+   Überschwingen) und wird dabei aus einer Unschärfe scharf; mobil gilt pageIn (siehe unten). Den
+   unscharfen Hintergrund teilt sie mit allen Modals (.dialog::backdrop). */
+.palette {
+  --spring: linear(
+    0,
+    0.009,
+    0.035 2.1%,
+    0.141 4.4%,
+    0.723 12.9%,
+    0.938 16.7%,
+    1.017 19.4%,
+    1.067,
+    1.084 24.3%,
+    1.073 27.4%,
+    1.022 34.6%,
+    1.001 39.6%,
+    0.993 46.1%,
+    1
+  );
+  max-width: 640px;
+  max-height: min(560px, calc(100dvh - 24vh));
+  margin-top: 12vh;
+  transform-origin: 50% 0;
+  animation:
+    paletteIn 0.55s var(--spring),
+    paletteFocus 0.3s var(--ease-out);
+}
+
+@keyframes paletteIn {
+  from {
+    transform: translateY(-14px) scale(0.92);
+  }
+}
+
+@keyframes paletteFocus {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+/* Große Schreibfläche (Notiz-Editor) */
+.document {
+  max-width: 860px;
+  height: min(88vh, 820px);
+}
+
+/* Vom Aufrufer gehaltene Größe (Ziehen an Rand/Ecke) */
+.resizable {
+  max-width: var(--dialog-w);
+  height: var(--dialog-h);
+}
+
+/* Schwebendes Fenster (show() statt showModal()): fest über der Seite, unter Toasts */
+.modeless {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: calc(60 + var(--dialog-z, 0));
+}
+
+/* Verschoben: Lage vom Aufrufer statt mittig */
+.positioned {
+  inset: auto;
+  top: var(--dialog-y);
+  left: var(--dialog-x);
+  margin: 0;
+}
+
+.dragHandle {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.fullscreen {
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.handle {
+  position: absolute;
+  z-index: 5;
+  touch-action: none;
+}
+
+.handleX {
+  top: 16px;
+  right: 0;
+  bottom: 16px;
+  width: 8px;
+  cursor: ew-resize;
+}
+
+.handleY {
+  right: 16px;
+  bottom: 0;
+  left: 16px;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+.handleCorner {
+  right: 0;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  border-bottom-right-radius: var(--r-2xl);
+  cursor: nwse-resize;
+}
+
+/* Sichtbarer Griff in der Ecke: zwei feine Striche */
+.handleCorner::after {
+  content: '';
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--ink-3);
+  border-bottom: 1.5px solid var(--ink-3);
+  border-bottom-right-radius: 3px;
+  opacity: 0.6;
+}
+
+.handleCorner:hover::after,
+.handleCorner:focus-visible::after {
+  opacity: 1;
+}
+
+.handleCorner:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.headText {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.subtitle {
+  margin-top: 4px;
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+.close {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--r);
+  background: none;
+  color: var(--ink-3);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 22px 24px;
+}
+
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--hair);
+  background: var(--surface);
+}
+
+.footerStart {
+  margin-right: auto;
+}
+
+@keyframes pageIn {
+  from {
+    transform: translateX(28px);
+    opacity: 0.4;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 760px) {
+  .dialog {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    animation: pageIn 0.26s var(--ease-out);
+  }
+
+  /* Eigene Seite: deckender Hintergrund, nichts zu verwischen */
+  .dialog::backdrop {
+    background: var(--canvas);
+    backdrop-filter: none;
+    animation: none;
+  }
+
+  .handle {
+    display: none;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--surface);
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  /* Kopf wie eine Seite: Zurück-Pfeil links statt ✕ rechts */
+  .close {
+    position: relative;
+    order: -1;
+    width: 38px;
+    height: 38px;
+    margin-left: -6px;
+    font-size: 0;
+  }
+
+  /* Absolut, damit das ausgeblendete ✕ keine eigene Rasterzeile bekommt und den Pfeil nach oben schiebt.
+     Die Spitze liegt links im gedrehten Quadrat: um ein Viertel der Diagonale nach rechts rücken. */
+  .close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 11px;
+    height: 11px;
+    border-bottom: 2px solid var(--ink);
+    border-left: 2px solid var(--ink);
+    border-radius: 1px;
+    transform: translate(calc(-50% + 3px), -50%) rotate(45deg);
+  }
+
+  .body {
+    padding: 18px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .footer > button {
+    flex: 1;
+  }
+}

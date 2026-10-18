@@ -1,0 +1,73 @@
+.tabs {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-height: 48px;
+  padding: 0 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 1px solid var(--hair);
+  background: var(--surface);
+  scrollbar-width: none;
+}
+
+/* Die eigentliche Tab-Liste; der Strich (.indicator) misst relativ zu .tabs */
+.list {
+  display: flex;
+  flex-shrink: 0;
+  align-items: stretch;
+  gap: 2px;
+}
+
+.trailing {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: none;
+  background: none;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -6px;
+  border-radius: var(--r);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+  pointer-events: none;
+  transition:
+    transform 0.32s var(--ease-out),
+    width 0.32s var(--ease-out);
+}

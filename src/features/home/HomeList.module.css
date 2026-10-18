@@ -1,0 +1,86 @@
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hair-2);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--surface-2);
+}
+
+.row:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Der Titel-Link deckt die ganze Zeile ab; der Knopf rechts liegt darüber */
+.link {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 1px;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  outline: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.sub {
+  margin-top: 1px;
+  color: var(--ink-2);
+  font-size: 12.8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.action {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .action {
+    width: 100%;
+  }
+}
+
+.pager {
+  padding: 0 16px 10px;
+  border-top: 1px solid var(--hair-2);
+}

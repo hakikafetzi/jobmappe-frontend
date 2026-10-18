@@ -1,0 +1,122 @@
+/* Aufbau wie die Stellen-Seite: Suchzeile oben, Liste links, Detailkarte rechts */
+.page {
+  --side: max(20px, calc((100% - var(--wrap)) / 2));
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.top {
+  flex-shrink: 0;
+  padding: 22px var(--side) 16px;
+}
+
+/* Nur mobil in der Detailansicht (wie auf der Stellen-Seite) */
+.back {
+  display: none;
+}
+
+.split {
+  --split-bottom: 20px;
+
+  display: grid;
+  flex: 1;
+  grid-template-columns: 400px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 20px;
+  min-height: 0;
+  padding: 0 var(--side) var(--split-bottom);
+}
+
+.master {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Fläche um den Pager bis zur Unterkante, in Seitenfarbe: beim Wechsel Stellen ↔ Firmen eine
+   eigene Ebene über den Karten — die gleiten dahinter und verschwinden auch im Rand darunter
+   (PageToolbar.module.css) */
+.pagerSlot {
+  --slot-extend: var(--split-bottom);
+
+  view-transition-name: jm-pager;
+  flex-shrink: 0;
+  margin-bottom: calc(-1 * var(--slot-extend));
+  padding-bottom: var(--slot-extend);
+  background: var(--canvas);
+}
+
+/* Fußleiste bündig mit den Karten (die Liste lässt links 2 px für den Fokusrahmen) */
+.pager {
+  margin-left: 2px;
+}
+
+.head {
+  /* Blendet beim Wechsel zur Stellen-Seite aus (siehe PageToolbar.module.css) */
+  view-transition-name: jm-list-head;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.detail {
+  /* Gleiche Karte wie auf der Stellen-Seite: rutscht beim Wechsel an die neue Position */
+  view-transition-name: jm-detail;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+  .split {
+    grid-template-columns: 340px minmax(0, 1fr);
+  }
+}
+
+/* Mobil entweder Suche + Liste (/firmen) oder Detailkarte (/firmen/:id) */
+@media (max-width: 760px) {
+  .top {
+    padding: 14px 14px 12px;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    --split-bottom: 14px;
+
+    padding: 0 14px var(--split-bottom);
+  }
+
+  /* Mobil auch über den Platz fürs Dock (AppShell) bis zur Unterkante */
+  .pagerSlot {
+    --slot-extend: calc(var(--split-bottom) + var(--dock-space));
+  }
+
+  .page:not(.showDetail) .detail,
+  .showDetail .master,
+  .showDetail .top {
+    display: none;
+  }
+
+  .showDetail .split {
+    padding-top: 14px;
+  }
+
+  .showDetail .back {
+    display: block;
+    padding: 14px 14px 0;
+    color: var(--ink-2);
+    font-size: 13px;
+    text-decoration: none;
+  }
+}

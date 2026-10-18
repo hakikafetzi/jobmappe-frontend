@@ -1,0 +1,87 @@
+/* Suchzeile oben wie auf den anderen Listen-Seiten, darunter Filter und die Notizen */
+.page {
+  --side: max(20px, calc((100% - var(--wrap)) / 2));
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.top {
+  flex-shrink: 0;
+  padding: 22px var(--side) 16px;
+}
+
+/* Die Karte reicht bis zum unteren Rand; nur die Notizen darin scrollen */
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 var(--side) 20px;
+}
+
+/* Spalte, damit leere Zustände die Fläche füllen und mittig stehen */
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 16px;
+  /* Beim Blättern gleiten Karten seitlich hinaus; kein waagrechter Rollbalken */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Grauer Grund, damit sich die weißen Notizkarten abheben */
+.withCards {
+  background: var(--surface-3);
+}
+
+/* Tabelle: Zeilen bündig bis an den Rand (über den Innenabstand der Fläche hinweg) */
+.rowsBleed {
+  --sticky-top: -16px;
+
+  margin: -16px;
+}
+
+.footer {
+  flex-shrink: 0;
+  padding: 0 16px 8px;
+  border-top: 1px solid var(--hair);
+  background: var(--surface);
+}
+
+.plus {
+  width: 15px;
+  height: 15px;
+}
+
+.footerPending {
+  visibility: hidden;
+}
+
+@media (max-width: 760px) {
+  .top {
+    padding: 14px 14px 12px;
+  }
+
+  .body {
+    padding: 0 14px 14px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .rowsBleed {
+    --sticky-top: -10px;
+
+    margin: -10px;
+  }
+
+  .footer {
+    padding: 0 10px 6px;
+  }
+}

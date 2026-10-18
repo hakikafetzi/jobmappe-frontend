@@ -1,0 +1,47 @@
+.missing {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.job {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-lg);
+  color: inherit;
+  text-decoration: none;
+}
+
+.job:hover {
+  border-color: var(--ink-3);
+}
+
+.job:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.jobText {
+  flex: 1;
+  min-width: 0;
+}
+
+.jobTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.jobMeta {
+  margin-top: 2px;
+  color: var(--ink-2);
+  font-size: 12.5px;
+}

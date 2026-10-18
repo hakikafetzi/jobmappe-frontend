@@ -1,0 +1,58 @@
+.pill {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 36px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 12.8px;
+}
+
+.pill:focus-within {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.select {
+  height: 100%;
+  padding: 0 32px 0 15px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: none;
+  appearance: none;
+  field-sizing: content;
+  cursor: pointer;
+  outline: none;
+}
+
+.chevron {
+  position: absolute;
+  right: 11px;
+  width: 15px;
+  height: 15px;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 760px) {
+  .pill {
+    height: 34px;
+  }
+
+  .group {
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    margin-right: -14px;
+    padding-right: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}

@@ -1,0 +1,160 @@
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 0 4px;
+}
+
+/* Einzeilige Fußleiste unter den Listenkarten, ohne eigene Karte: Pfeile um den Status, Größe rechts */
+.card {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 5px 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.status {
+  color: var(--ink-3);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.size {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Kleine Pille mit Pfeil, passend zu den Filter-Pillen */
+.sizeSelect {
+  appearance: none;
+  height: 28px;
+  padding: 0 24px 0 9px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.sizeSelect:hover {
+  border-color: var(--ink-3);
+  color: var(--ink);
+}
+
+.sizeSelect:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.chevron {
+  position: absolute;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border: none;
+  border-radius: var(--r-lg);
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.item:hover {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.item:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* In der Karte etwas enger, damit Seitenzahlen und Größenauswahl in die Listenspalte passen */
+.card .items {
+  gap: 0;
+}
+
+.card .item {
+  min-width: 28px;
+  padding: 0 6px;
+}
+
+.item svg {
+  width: 16px;
+  height: 16px;
+}
+
+.current,
+.current:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.gap {
+  min-width: 20px;
+  color: var(--ink-3);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  /* Schmal: Bereich über den Seitenzahlen, beides mittig */
+  .pager {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .item {
+    min-width: 34px;
+    height: 34px;
+  }
+}

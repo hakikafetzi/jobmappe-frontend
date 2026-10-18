@@ -1,0 +1,243 @@
+/* Tabelle über die ganze Breite; feste Spaltenbreiten, damit lange Texte gekürzt werden */
+.table {
+  width: 100%;
+  table-layout: fixed;
+  /* Nicht „collapse“ (wie ApplicationsTable): Rahmen wiederverwendeter Zeilen bleiben sauber */
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.colTitle {
+  width: 32%;
+}
+
+.colApp {
+  width: 30%;
+}
+
+.colFolder {
+  width: 18%;
+}
+
+.colDate {
+  width: 10%;
+}
+
+/* Kopfzeile bleibt beim Scrollen stehen. --sticky-top: Versatz, falls die scrollende Fläche einen
+   Innenabstand hat, über den die Tabelle hinausreicht (NotesPage) */
+.th {
+  position: sticky;
+  top: var(--sticky-top, 0);
+  z-index: 1;
+  padding: 0;
+  border-bottom: 1px solid var(--hair);
+  background: var(--surface);
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.thLabel {
+  display: block;
+  padding: 11px 16px;
+}
+
+.sortButton {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--ink);
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.arrow {
+  margin-left: 4px;
+  color: var(--accent);
+  font-size: 9px;
+}
+
+.row {
+  position: relative;
+}
+
+.row:hover {
+  --sheet-bg: var(--accent-soft);
+
+  background: var(--surface-2);
+}
+
+.row:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.td {
+  height: 60px;
+  padding: 0 16px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hair-2);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.titleCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.titleText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Der Titel-Knopf deckt die ganze Zeile ab */
+.open {
+  overflow: hidden;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+.open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* Nur mobil (siehe unten) */
+.subjectInline {
+  display: none;
+}
+
+.job,
+.company {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job {
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.company {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.muted {
+  color: var(--ink-3);
+  font-size: 12.5px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 2px 8px 2px 7px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.category svg {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+}
+
+.categoryName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  color: var(--ink-2);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Mittelbreit: Ordner-Spalte enger, Bewerbung bleibt */
+@media (max-width: 1100px) {
+  .colTitle {
+    width: 34%;
+  }
+
+  .colApp {
+    width: 28%;
+  }
+
+  .colDate {
+    width: 12%;
+  }
+
+  .colFolder {
+    width: 14%;
+  }
+}
+
+/* Schmal: nur Titel (mit Bewerbung darunter) und das Erstelldatum */
+@media (max-width: 760px) {
+  .colApp,
+  .colFolder,
+  .colDate:last-child {
+    display: none;
+  }
+
+  .colTitle {
+    width: auto;
+  }
+
+  .colDate {
+    width: 96px;
+  }
+
+  .td,
+  .thLabel,
+  .sortButton {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .subjectInline {
+    display: block;
+    overflow: hidden;
+    color: var(--ink-3);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

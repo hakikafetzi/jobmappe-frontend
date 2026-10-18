@@ -1,0 +1,44 @@
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.box {
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+/* Volle Höhe: Kopf fest, die Karte nimmt den Rest */
+.fill {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.fill .head {
+  flex-shrink: 0;
+}
+
+.fill .box {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}

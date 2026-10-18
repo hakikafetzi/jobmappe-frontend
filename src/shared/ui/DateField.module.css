@@ -1,0 +1,91 @@
+.wrap {
+  position: relative;
+}
+
+/* Platz für den Kalender-Knopf im Feld */
+.wrap .input {
+  padding-right: 44px;
+  font-variant-numeric: tabular-nums;
+}
+
+.toggle {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: var(--r);
+  background: none;
+  color: var(--ink-3);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.toggle:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.toggle[aria-expanded='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.toggle:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* Lage setzt useAnchoredPopover (--x/--y), weil das Popover in der obersten Ebene liegt */
+.popover {
+  position: fixed;
+  inset: auto;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  width: 300px;
+  max-width: calc(100vw - 16px);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.16s,
+    transform 0.2s var(--ease-out),
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.popover:not(:popover-open) {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+}
+
+@starting-style {
+  .popover:popover-open {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}

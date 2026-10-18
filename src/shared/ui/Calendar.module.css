@@ -1,0 +1,192 @@
+.calendar {
+  padding: 10px 10px 8px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.nav,
+.title,
+.day,
+.pick,
+.link {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nav {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r);
+  color: var(--ink-2);
+}
+
+.nav svg {
+  width: 16px;
+  height: 16px;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: var(--r);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.title:disabled {
+  cursor: default;
+}
+
+.titleChevron {
+  width: 14px;
+  height: 14px;
+  color: var(--ink-3);
+}
+
+.nav:hover,
+.title:hover:not(:disabled),
+.pick:hover,
+.day:hover:not(:disabled, [data-selected]) {
+  background: var(--surface-3);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.weekdays,
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.weekday {
+  padding: 4px 0 6px;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.weekday abbr {
+  text-decoration: none;
+}
+
+.day {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 36px;
+  border-radius: var(--r);
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.day[data-outside] {
+  color: var(--ink-3);
+}
+
+.day[data-today] {
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px var(--accent-line);
+}
+
+.day[data-selected] {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.day:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.nav:focus-visible,
+.title:focus-visible,
+.day:focus-visible,
+.pick:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.picks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.pick {
+  height: 48px;
+  border-radius: var(--r-lg);
+  font-size: 13.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pick[data-outside] {
+  color: var(--ink-3);
+}
+
+.pick[data-selected] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--hair);
+}
+
+.link {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--r);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.link:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.footActions {
+  display: flex;
+  gap: 2px;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.link:disabled {
+  cursor: default;
+  opacity: 0.4;
+}

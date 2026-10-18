@@ -1,0 +1,10 @@
+.subject {
+  display: block;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.company {
+  display: block;
+  margin-top: 2px;
+}

@@ -1,0 +1,48 @@
+.box {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 52px;
+  padding: 6px 6px 6px 18px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: 0 2px 8px rgba(26, 29, 35, 0.06);
+  cursor: text;
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+
+.box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 11px;
+  border: none;
+  background: none;
+  color: var(--ink);
+  font-size: 14.5px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--ink-3);
+}
+
+@media (max-width: 760px) {
+  .box {
+    height: 50px;
+    padding: 5px 5px 5px 14px;
+  }
+
+  .input {
+    font-size: 16px;
+  }
+}

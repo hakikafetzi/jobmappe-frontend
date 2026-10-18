@@ -1,0 +1,192 @@
+.board {
+  /* Höhe einer Karte mit einzeiligem Titel: leere Spalten und die Ablage sind so hoch, als läge
+     eine Karte darin */
+  --card-h: 101.4px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: max-content;
+  min-height: 100%;
+  margin: 0 auto;
+}
+
+.column {
+  /* Wechsel zur Tabelle (viewTransition.ts) */
+  view-transition-name: var(--vt-name, none);
+  view-transition-class: jm-board-part;
+  display: flex;
+  flex: 0 0 260px;
+  flex-direction: column;
+  width: 260px;
+  border: 1px solid transparent;
+  border-radius: var(--r-2xl);
+  background: var(--surface-3);
+}
+
+.dragOver {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+
+/* Während eines Drags: Spalte, in die die Karte nicht wechseln darf (transitions.ts) */
+.blocked {
+  opacity: 0.45;
+  cursor: no-drop;
+  transition: opacity 0.2s;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 14px 10px;
+  border: none;
+  border-radius: var(--r-2xl);
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+}
+
+.head:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.name {
+  font-size: 13.2px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.head:hover .name {
+  color: var(--accent);
+}
+
+.count {
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.caret {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--ink-3);
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.head:hover .caret,
+.head:focus-visible .caret {
+  opacity: 1;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 60px;
+  padding: 0 10px 10px;
+}
+
+.empty,
+.zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--card-h);
+  padding: 0 8px;
+  color: var(--ink-3);
+  font-size: 12px;
+  text-align: center;
+}
+
+.empty svg,
+.zone svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Eingeklappt: schmale, senkrechte Spalte */
+.collapsed {
+  flex: 0 0 46px;
+  align-items: center;
+  width: 46px;
+}
+
+.collapsed .head {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 14px 0;
+}
+
+.collapsed .name {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.collapsed .caret,
+.collapsed .body {
+  display: none;
+}
+
+/* Ablage „Abgeschlossen“ */
+.dropzone {
+  flex: 0 0 260px;
+  border: 1.5px dashed var(--hair);
+  background: transparent;
+}
+
+.dropzone .dot {
+  --dot: var(--ink-3);
+}
+
+.dropzone.dragOver {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.zone {
+  /* Abstand wie .body um eine Karte */
+  margin: 0 10px 10px;
+}
+
+.dragOver .zone {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .column {
+    flex-basis: 82vw;
+    width: 82vw;
+  }
+
+  .dropzone {
+    flex-basis: 60vw;
+    width: 60vw;
+  }
+}
+
+.more {
+  align-self: center;
+}

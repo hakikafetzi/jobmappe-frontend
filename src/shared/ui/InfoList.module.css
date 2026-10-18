@@ -1,0 +1,57 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.term {
+  margin-bottom: 3px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.value {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wrap {
+  white-space: normal;
+}
+
+/* Beschriftung mit kleinen Aktionen daneben (der Wert bleibt in voller Breite) */
+.withActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+  /* Knöpfe sind höher als die Beschriftung; ohne Einfluss auf deren Höhe */
+  margin-block: -6px;
+}
+
+.value a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.value a:hover {
+  text-decoration: underline;
+}
+
+.single {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 1180px) {
+  .list:not(.single) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

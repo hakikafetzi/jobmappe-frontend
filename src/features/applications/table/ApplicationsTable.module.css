@@ -1,0 +1,184 @@
+.wrap {
+  /* Wechsel zum Board (viewTransition.ts) */
+  view-transition-name: jm-sheet;
+  view-transition-class: jm-board-part;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+/* Pager als Fußzeile der Karte (wie die Listen der Startseite) */
+.footer {
+  padding: 0 16px 10px;
+  border-top: 1px solid var(--hair-2);
+}
+
+.table {
+  width: 100%;
+  /* Nicht „collapse“: Zusammengelegte Rahmen zeichnet der Browser nicht immer neu, wenn eine
+     wiederverwendete Zeile aufhört, die letzte zu sein (Suche leeren → Trennstriche fehlten). */
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.th {
+  padding: 0;
+  border-bottom: 1px solid var(--hair);
+  background: var(--surface);
+  color: var(--ink-3);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sortButton {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--ink);
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.arrow {
+  margin-left: 4px;
+  color: var(--accent);
+  font-size: 9px;
+}
+
+.row {
+  position: relative;
+}
+
+.row:hover {
+  background: var(--surface-2);
+}
+
+.row:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--hair-2);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.row:last-child .td {
+  border-bottom: none;
+}
+
+/* Der Titel-Link deckt die ganze Zeile ab */
+.link {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.title {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+}
+
+.company {
+  margin-top: 1px;
+  color: var(--ink-2);
+  font-size: 12.3px;
+}
+
+.num {
+  color: var(--ink-2);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.warn {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+.muted {
+  color: var(--ink-3);
+}
+
+@media (max-width: 760px) {
+  .wrap {
+    overflow: visible;
+    border: none;
+    background: none;
+  }
+
+  /* Tabelle als Karten */
+  .table,
+  .table tbody {
+    display: block;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 6px 12px;
+    margin-bottom: 10px;
+    padding: 14px 14px 12px;
+    border: 1px solid var(--hair);
+    border-radius: var(--r-xl);
+    background: var(--surface);
+  }
+
+  .td {
+    display: block;
+    padding: 0;
+    border: none;
+    font-size: 12.5px;
+  }
+
+  .td:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .td[data-label] {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    border-top: 1px solid var(--hair-2);
+  }
+
+  .td[data-label]::before {
+    content: attr(data-label);
+    color: var(--ink-3);
+    font-size: 12px;
+  }
+}

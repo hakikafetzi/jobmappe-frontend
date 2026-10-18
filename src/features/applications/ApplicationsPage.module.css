@@ -1,0 +1,107 @@
+.page {
+  --side: max(20px, calc((100% - var(--wrap)) / 2));
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.top {
+  flex-shrink: 0;
+  padding: 22px var(--side) 4px;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.meta {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  color: var(--ink-2);
+  font-size: 12.5px;
+}
+
+.meta b {
+  color: var(--ink);
+}
+
+.body {
+  flex: 1;
+  overflow: auto;
+  padding: 14px 20px 20px;
+}
+
+/* Laden/Fehler: die Anzeige füllt die Fläche und steht mittig */
+.centered {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Noch keine Bewerbungen (Tabellenansicht): Fläche so breit wie die Tabelle (--wrap). Sie nimmt
+   beim Wechsel zum Board deren Platz in der Animation ein (viewTransition.ts). */
+.emptyPage {
+  view-transition-name: jm-sheet;
+  view-transition-class: jm-board-part;
+  display: grid;
+  place-items: center;
+  max-width: var(--wrap);
+  min-height: 100%;
+  margin: 0 auto;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+@media (max-width: 760px) {
+  .top {
+    padding: 14px 14px 0;
+  }
+
+  .filterRow {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .meta {
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .body {
+    padding: 12px 14px 18px;
+  }
+}
+
+/* ---------- Wechsel Board ↔ Tabelle (View Transitions) ----------
+   Spalten, Karten, Ablage und Tabelle bewegen sich per Web Animations (viewTransition.ts). Hier
+   nur: Inhalt auf den Rahmen beschneiden und oben bündig lassen statt ihn zu strecken. */
+:global(::view-transition-group(.jm-board-part)) {
+  overflow: clip;
+  border-radius: var(--r-2xl);
+  animation: none;
+}
+
+:global(::view-transition-old(.jm-board-part)),
+:global(::view-transition-new(.jm-board-part)) {
+  height: 100%;
+  object-fit: none;
+  object-position: top left;
+  animation: none;
+}
+
+/* Karten behalten ihre Größe und werden nur verschoben */
+:global(::view-transition-group(.jm-board-card)),
+:global(::view-transition-old(.jm-board-card)),
+:global(::view-transition-new(.jm-board-card)) {
+  animation: none;
+}

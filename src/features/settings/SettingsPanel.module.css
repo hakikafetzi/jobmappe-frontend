@@ -1,0 +1,9 @@
+.name {
+  width: 240px;
+}
+
+@media (max-width: 760px) {
+  .name {
+    width: 100%;
+  }
+}

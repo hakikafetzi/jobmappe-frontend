@@ -1,0 +1,30 @@
+/* Aussehen kommt aus SlideSwitch. Die Klasse bindet dieses Modul ein: Ein Import nur für die
+   globalen Regeln unten würde beim Bauen weggelassen. */
+.theme {
+  min-width: 0;
+}
+
+/* ---- Farbwechsel der Seite (switchTheme.ts setzt das Attribut und die Variablen) ---- */
+
+/* Benannte Elemente (Seitenwechsel Stellen ↔ Firmen) sollen hier nicht eigens überblenden */
+:global(html[data-theme-switching]) * {
+  view-transition-name: none;
+}
+
+:global(html[data-theme-switching])::view-transition-old(root) {
+  animation: none;
+}
+
+:global(html[data-theme-switching])::view-transition-new(root) {
+  animation: theme-reveal 0.9s var(--ease-out);
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x) var(--theme-y));
+  }
+
+  to {
+    clip-path: circle(var(--theme-r) at var(--theme-x) var(--theme-y));
+  }
+}

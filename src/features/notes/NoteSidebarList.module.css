@@ -1,0 +1,218 @@
+/* Abgerundete Einträge, getrennt durch feine, eingerückte Linien */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 4px 8px 8px;
+  list-style: none;
+}
+
+.row {
+  position: relative;
+}
+
+.row:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  bottom: -1px;
+  left: 10px;
+  height: 1px;
+  background: var(--hair-2);
+}
+
+.row[draggable='true'] {
+  cursor: grab;
+}
+
+/* Links das Notizblatt, rechts Titel, Bewerbung und eine Zeile mit Ordner und Datum */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  /* Gleich hoch mit und ohne Ordner-Zeile; der Inhalt steht mittig */
+  min-height: 78px;
+  padding: 10px 12px 10px 10px;
+  border: none;
+  border-radius: var(--r-lg);
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: inherit;
+}
+
+.item:hover {
+  --sheet-bg: var(--accent-soft);
+
+  background: var(--surface-2);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Geöffnete Notiz: hellblau hinterlegt, Blatt hebt sich weiß davon ab */
+.item[aria-current='true'] {
+  --sheet-bg: var(--surface);
+  --sheet-fold: color-mix(in srgb, var(--accent) 30%, transparent);
+
+  background: var(--accent-soft);
+}
+
+.item[aria-current='true'] .title {
+  color: var(--accent);
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.subjectRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.title,
+.subject {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Rechts Platz für „Daneben öffnen“ (nur in der Titelzeile) */
+.title {
+  padding-right: 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+}
+
+.subject {
+  min-width: 0;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 4px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 1px 7px 1px 6px;
+  border-radius: 5px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.item[aria-current='true'] .category {
+  background: var(--surface);
+}
+
+.category svg {
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+}
+
+.categoryName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.draft {
+  padding: 1px 7px;
+  border-radius: 5px;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.date {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* „Daneben öffnen“ oben rechts, sichtbar bei Hover/Fokus */
+.action {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.row:hover .action,
+.row:focus-within .action {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .action {
+    opacity: 1;
+  }
+}
+
+.more {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 12px;
+}
+
+/* Zieh-Bild: Quadrat mit Notizblatt oben und Titel darunter. Liegt außerhalb des Bildschirms, muss
+   aber gerendert sein (nicht display: none), damit der Browser es abbilden kann. */
+.dragPreview {
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 128px;
+  height: 128px;
+  padding: 14px 12px;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  pointer-events: none;
+}
+
+.dragTitle {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

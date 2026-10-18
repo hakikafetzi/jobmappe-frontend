@@ -1,0 +1,147 @@
+.tool {
+  position: relative;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    color 0.12s,
+    background 0.12s;
+}
+
+.tool:hover {
+  border-color: var(--ink-3);
+  background: var(--surface-2);
+  color: var(--ink);
+}
+
+.tool:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tool svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Zerstörende Aktion (Löschen): rot, beim Darüberfahren rot hinterlegt */
+.tool.danger {
+  color: var(--red);
+}
+
+.tool.danger:hover {
+  border-color: var(--red-line);
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+/* So hoch wie die normalen Buttons, z. B. in einer Fußleiste */
+.tool.lg {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-lg);
+}
+
+.tool.lg svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* Randlos und kleiner, z. B. direkt hinter einem Wert. Doppelte Klasse, damit Link-Farben
+   der Umgebung (z. B. InfoList) nicht greifen. */
+.tool.inline {
+  width: 24px;
+  height: 24px;
+  border-color: transparent;
+  border-radius: 5px;
+  background: none;
+  color: var(--ink-3);
+}
+
+.tool.inline:hover {
+  border-color: transparent;
+  background: var(--surface-3);
+  color: var(--ink);
+}
+
+.tool.inline svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Tooltip unter dem Knopf; erscheint nach kurzer Verzögerung */
+.tooltip {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: var(--ink);
+  box-shadow: var(--shadow-md);
+  color: var(--surface);
+  font-size: 11.8px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -3px);
+  transition:
+    opacity 0.12s,
+    transform 0.12s;
+}
+
+.tool:hover .tooltip,
+.tool:focus-visible .tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0.15s;
+}
+
+/* Über dem Knopf (Knöpfe am unteren Rand) */
+.tooltipAbove {
+  top: auto;
+  bottom: calc(100% + 7px);
+  transform: translate(-50%, 3px);
+}
+
+/* Rechtsbündig: wächst nach links, statt über den rechten Rand hinauszuragen */
+.tooltipEnd {
+  right: 0;
+  left: auto;
+  transform: translateY(-3px);
+}
+
+.tool:hover .tooltipEnd,
+.tool:focus-visible .tooltipEnd {
+  transform: none;
+}
+
+@media (hover: none) {
+  .tooltip {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .tool {
+    width: 34px;
+    height: 34px;
+  }
+
+  .tool.inline {
+    width: 30px;
+    height: 30px;
+  }
+}

@@ -1,0 +1,68 @@
+/* Notizliste links (einklappbar), Notizen rechts */
+.layout {
+  position: relative;
+  display: grid;
+  flex: 1;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-height: 0;
+}
+
+.collapsed {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.panes {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+}
+
+.two {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pane + .pane {
+  border-left: 1px solid var(--hair);
+}
+
+/* Im Split zeigt eine feine Linie oben, welche Seite aktiv ist (Ziel der Notizliste) */
+.two .active {
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.dropOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  pointer-events: none;
+}
+
+.dropZone {
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--hair);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  color: var(--ink-3);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropActive {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}

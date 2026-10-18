@@ -1,0 +1,181 @@
+/* Typografie für gerenderten Markdown-Text (Stellenbeschreibungen, Notizen). */
+.prose {
+  color: var(--ink-2);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+.prose h2 {
+  margin: 22px 0 8px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.prose h3 {
+  margin: 18px 0 8px;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.prose h4 {
+  margin: 20px 0 8px;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+.prose :is(h2, h3, h4):first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin-bottom: 12px;
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+.prose ul,
+.prose ol {
+  margin: 0 0 13px;
+  padding-left: 19px;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  padding-left: 22px;
+  list-style: decimal;
+}
+
+.prose ol li {
+  padding-left: 2px;
+}
+
+.prose li {
+  margin-bottom: 5px;
+}
+
+.prose li::marker {
+  color: var(--ink-3);
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose blockquote {
+  margin: 0 0 12px;
+  padding-left: 12px;
+  border-left: 3px solid var(--hair);
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.prose code {
+  padding: 1px 5px;
+  border: 1px solid var(--hair);
+  border-radius: 4px;
+  background: var(--surface-3);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.prose s {
+  color: var(--ink-3);
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.prose hr {
+  margin: 18px 0;
+  border: none;
+  border-top: 1px solid var(--hair);
+}
+
+.prose pre {
+  margin: 0 0 13px;
+  padding: 10px 12px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  background: var(--surface-3);
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.prose pre code {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+}
+
+/* Checkliste: Kästchen statt Punkt */
+.prose ul[data-tasks] {
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li[data-done] {
+  position: relative;
+  padding-left: 26px;
+}
+
+.prose li[data-done]::before {
+  content: '';
+  position: absolute;
+  top: calc(0.86em - 8px);
+  left: 0;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--ink-3);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.prose li[data-done='true'] {
+  color: var(--ink-3);
+  text-decoration: line-through;
+}
+
+.prose li[data-done='true']::before {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.prose li[data-done='true']::after {
+  content: '';
+  position: absolute;
+  top: calc(0.86em - 5px);
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid var(--surface);
+  border-bottom: 2px solid var(--surface);
+  transform: rotate(45deg);
+}

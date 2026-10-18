@@ -1,0 +1,58 @@
+.anchor {
+  display: inline-flex;
+}
+
+/* Lage setzt useAnchoredPopover (--x/--y), weil das Popover in der obersten Ebene liegt */
+.popover {
+  position: fixed;
+  inset: auto;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  width: 300px;
+  max-width: calc(100vw - 16px);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.16s,
+    transform 0.2s var(--ease-out),
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.popover:not(:popover-open) {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+}
+
+@starting-style {
+  .popover:popover-open {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.error {
+  color: var(--red);
+  font-size: 12.3px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}

@@ -1,0 +1,355 @@
+{
+  "categories": [
+    {
+      "id": "00000000-0000-4000-8100-000000000001",
+      "name": "Vorbereitung"
+    },
+    {
+      "id": "00000000-0000-4000-8100-000000000002",
+      "name": "Fragen fürs Gespräch"
+    },
+    {
+      "id": "00000000-0000-4000-8100-000000000003",
+      "name": "Rückblick"
+    },
+    {
+      "id": "00000000-0000-4000-8100-000000000004",
+      "name": "Recherche"
+    }
+  ],
+  "companies": [
+    {
+      "id": "00000000-0000-4000-8200-000000000001",
+      "name": "Muster Finanz AG",
+      "website": "muster-finanz.example",
+      "street": "Börsenplatz 61",
+      "postalCode": "65760",
+      "city": "Eschborn"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000002",
+      "name": "Beispiel Energie AG",
+      "website": "beispiel-energie.example",
+      "street": "Energieweg 38",
+      "postalCode": "60486",
+      "city": "Frankfurt am Main"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000003",
+      "name": "Musterflug AG",
+      "website": "musterflug.example",
+      "street": "Flughafenstraße 178",
+      "postalCode": "60547",
+      "city": "Frankfurt am Main"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000004",
+      "name": "Mustermann GmbH & Co. KG",
+      "website": "mustermann.example",
+      "street": "Musterstraße 90",
+      "postalCode": "60486",
+      "city": "Frankfurt am Main"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000005",
+      "name": "Beispielbank AG",
+      "website": "beispielbank.example",
+      "street": "Bankplatz 1",
+      "postalCode": "60311",
+      "city": "Frankfurt am Main"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000006",
+      "name": "Musterportal GmbH",
+      "website": "musterportal.example",
+      "street": "Portalstraße 62",
+      "postalCode": "80636",
+      "city": "München"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000007",
+      "name": "Beispiel Consulting SE",
+      "website": "beispiel-consulting.example",
+      "street": "Beratungsplatz 1",
+      "postalCode": "44269",
+      "city": "Dortmund"
+    },
+    {
+      "id": "00000000-0000-4000-8200-000000000008",
+      "name": "Musterbank AG",
+      "website": "musterbank.example",
+      "street": "Am Musterplatz 1",
+      "postalCode": "60265",
+      "city": "Frankfurt am Main"
+    }
+  ],
+  "postings": [
+    {
+      "id": "00000000-0000-4000-8300-000000000001",
+      "companyId": "00000000-0000-4000-8200-000000000001",
+      "title": "Junior Java Entwickler (m/w/d) Backend",
+      "description": "## Deine Aufgaben\n\n- Entwicklung von Backend-Services für unser Clearing-System\n- Arbeit in einem Scrum-Team an Services, die täglich mehrere Millionen Transaktionen verarbeiten\n- Mitgestaltung von Architekturentscheidungen\n- Code Reviews und Pair Programming\n\n## Dein Profil\n\n- Abgeschlossenes Informatikstudium oder vergleichbare Qualifikation\n- Erste Erfahrung mit **Java** und **Spring Boot**, gerne aus Praktikum oder Werkstudententätigkeit\n- Grundkenntnisse in relationalen Datenbanken\n- Sehr gute Deutschkenntnisse\n\n## Was wir bieten\n\n- Strukturiertes Onboarding mit festem Mentor\n- 30 Tage Urlaub, hybrides Arbeiten (2 Tage Homeoffice)\n- Weiterbildungsbudget und Zertifizierungen",
+      "location": "Eschborn",
+      "url": "https://jobs.muster-finanz.example/stellen/10427",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-19",
+      "createdAt": "2026-08-20T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000002",
+      "companyId": "00000000-0000-4000-8200-000000000002",
+      "title": "Softwareentwickler Python/Django (m/w/d)",
+      "description": "Wir digitalisieren unsere Dokumentation und suchen dafür Unterstützung.\n\nDer Stack ist **Django** mit PostgreSQL, asynchrone Verarbeitung über `Celery` und `Redis`, das Ganze in Docker. Du übernimmst früh Verantwortung für eigene Komponenten.\n\nWir sind ein kleines Team ohne lange Abstimmungswege.",
+      "location": "Frankfurt am Main",
+      "url": "https://jobs.beispiel-energie.example/job/1847263",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-21",
+      "createdAt": "2026-08-21T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000003",
+      "companyId": "00000000-0000-4000-8200-000000000004",
+      "title": "Junior Java Softwareentwickler (m/w/d)",
+      "description": "## Aufgaben\n\n- Weiterentwicklung von Anwendungen im Bankenumfeld\n- Umsetzung fachlicher Anforderungen in Java\n- Enge Zusammenarbeit mit Fachbereich und Testmanagement\n\n## Anforderungen\n\n- **Java**, **Spring Boot**, JUnit, Maven\n- Kenntnisse in PostgreSQL oder Oracle\n- Erfahrung mit Git und CI/CD-Pipelines\n- Interesse an Finanzthemen",
+      "location": "Frankfurt am Main",
+      "url": "https://karriere.mustermann.example/stellen/28471",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-14",
+      "createdAt": "2026-08-15T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000004",
+      "companyId": "00000000-0000-4000-8200-000000000005",
+      "title": "Junior DevOps Engineer (m/w/d)",
+      "description": "Du baust unsere Deployment-Pipelines aus und automatisierst, was sich automatisieren lässt.\n\nWir arbeiten mit GitLab CI, Terraform, Kubernetes und AWS. Zwei Tage pro Woche Remote sind Standard.\n\nZertifizierungen unterstützen wir finanziell.",
+      "location": "Frankfurt am Main",
+      "url": "https://jobs.beispielbank.example/de/12938",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-11",
+      "createdAt": "2026-08-12T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000005",
+      "companyId": "00000000-0000-4000-8200-000000000003",
+      "title": "Junior Backend Developer (m/w/d)",
+      "description": "Für unser internes Tooling-Team suchen wir Verstärkung.\n\nDu arbeitest an internen Anwendungen mit Java-Backend und Angular-Frontend. Der Bereich betreut die Abläufe im Betrieb.",
+      "location": "Frankfurt am Main",
+      "url": "https://jobs.musterflug.example/job/993412",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-04",
+      "createdAt": "2026-08-05T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000006",
+      "companyId": "00000000-0000-4000-8200-000000000008",
+      "title": "Junior Java Entwickler (m/w/d)",
+      "description": "Entwicklung und Wartung von Java-Anwendungen im Wertpapiergeschäft.\n\nWir suchen jemanden, der eigenständig arbeitet und sich in bestehende Systeme einarbeiten mag.",
+      "location": "Frankfurt am Main",
+      "url": "https://jobs.musterbank.example/8172",
+      "status": "ACTIVE",
+      "publishedAt": "2026-08-07",
+      "createdAt": "2026-08-08T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000007",
+      "companyId": "00000000-0000-4000-8200-000000000007",
+      "title": "Software Engineer Backend (m/w/d)",
+      "description": "Projektarbeit bei Kunden aus verschiedenen Branchen.\n\nJava, Spring, teilweise auch .NET. Reisebereitschaft wird erwartet, aktuell überwiegend Projekte im Rhein-Main-Gebiet.",
+      "location": "Frankfurt am Main",
+      "url": "https://beispiel-consulting.example/karriere/47182",
+      "status": "ACTIVE",
+      "publishedAt": "2026-07-28",
+      "createdAt": "2026-07-29T10:00:00",
+      "archivedAt": null
+    },
+    {
+      "id": "00000000-0000-4000-8300-000000000008",
+      "companyId": "00000000-0000-4000-8200-000000000006",
+      "title": "Backend-Entwickler Java (m/w/d)",
+      "description": "Du entwickelst die Schnittstellen, über die täglich hunderttausende Anfragen laufen.\n\nJava mit Spring, MySQL, serviceorientierte Architektur. Wir deployen mehrmals täglich.",
+      "location": "Frankfurt am Main",
+      "url": "https://jobs.musterportal.example/2841",
+      "status": "INACTIVE",
+      "publishedAt": "2026-07-20",
+      "createdAt": "2026-07-22T10:00:00",
+      "archivedAt": null
+    }
+  ],
+  "applications": [
+    {
+      "id": "00000000-0000-4000-8400-000000000001",
+      "jobPostingId": "00000000-0000-4000-8300-000000000003",
+      "status": "INTERVIEW",
+      "priority": "HIGH",
+      "appliedAt": "2026-08-16",
+      "appliedVia": "ONLINE",
+      "portalUrl": "https://karriere.mustermann.example/bewerbung/status/99182",
+      "closedAt": null,
+      "createdAt": "2026-08-15T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000002",
+      "jobPostingId": "00000000-0000-4000-8300-000000000001",
+      "status": "APPLIED",
+      "priority": "HIGH",
+      "appliedAt": "2026-08-27",
+      "appliedVia": "EMAIL",
+      "portalUrl": null,
+      "closedAt": null,
+      "createdAt": "2026-08-20T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000003",
+      "jobPostingId": "00000000-0000-4000-8300-000000000004",
+      "status": "WAITING",
+      "priority": "MEDIUM",
+      "appliedAt": "2026-08-12",
+      "appliedVia": "ONLINE",
+      "portalUrl": "https://jobs.beispielbank.example/status/44120",
+      "closedAt": null,
+      "createdAt": "2026-08-12T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000004",
+      "jobPostingId": "00000000-0000-4000-8300-000000000002",
+      "status": "IN_PROGRESS",
+      "priority": "MEDIUM",
+      "appliedAt": null,
+      "appliedVia": null,
+      "portalUrl": null,
+      "closedAt": null,
+      "createdAt": "2026-08-21T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000005",
+      "jobPostingId": "00000000-0000-4000-8300-000000000006",
+      "status": "REJECTED",
+      "priority": "MEDIUM",
+      "appliedAt": "2026-08-08",
+      "appliedVia": "ONLINE",
+      "portalUrl": null,
+      "closedAt": "2026-08-25",
+      "createdAt": "2026-08-08T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000006",
+      "jobPostingId": "00000000-0000-4000-8300-000000000007",
+      "status": "NO_RESPONSE",
+      "priority": "LOW",
+      "appliedAt": "2026-07-29",
+      "appliedVia": "EMAIL",
+      "portalUrl": null,
+      "closedAt": "2026-08-30",
+      "createdAt": "2026-07-29T12:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8400-000000000007",
+      "jobPostingId": "00000000-0000-4000-8300-000000000005",
+      "status": "OFFER",
+      "priority": "MEDIUM",
+      "appliedAt": "2026-08-06",
+      "appliedVia": "ONLINE",
+      "portalUrl": "https://jobs.musterflug.example/status/7712",
+      "closedAt": null,
+      "createdAt": "2026-08-05T12:00:00"
+    }
+  ],
+  "notes": [
+    {
+      "id": "00000000-0000-4000-8500-000000000001",
+      "applicationId": "00000000-0000-4000-8400-000000000001",
+      "categoryId": "00000000-0000-4000-8100-000000000001",
+      "title": "Unterlagen angepasst",
+      "content": "Lebenslauf um JUnit und Maven ergänzt — beides im Praktikum benutzt, stand aber nicht drin.\n\nAnschreiben betont das Abschlussprojekt mit Spring Boot.",
+      "createdAt": "2026-08-15T09:00:00",
+      "updatedAt": "2026-08-15T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000002",
+      "applicationId": "00000000-0000-4000-8400-000000000001",
+      "categoryId": "00000000-0000-4000-8100-000000000004",
+      "title": "Was macht die Firma eigentlich?",
+      "content": "IT-Dienstleister für Banken. Betreiben ein eigenes Kernbanksystem für viele Kunden.\n\nMehrere Standorte, darunter Frankfurt. Einige tausend Mitarbeiter.",
+      "createdAt": "2026-08-15T09:00:00",
+      "updatedAt": "2026-08-15T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000003",
+      "applicationId": "00000000-0000-4000-8400-000000000001",
+      "categoryId": "00000000-0000-4000-8100-000000000002",
+      "title": "Meine Fragen",
+      "content": "- In welchem Team konkret? Portal oder Kernbanken?\n- Wie sieht das Onboarding für Einsteiger aus?\n- Welche Java-Version, welcher Framework-Stand?\n- Wie viel Legacy, wie viel Neuentwicklung?",
+      "createdAt": "2026-08-27T09:00:00",
+      "updatedAt": "2026-08-27T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000004",
+      "applicationId": "00000000-0000-4000-8400-000000000001",
+      "categoryId": "00000000-0000-4000-8100-000000000001",
+      "title": "Termin steht",
+      "content": "Fachgespräch am 04.09.2026, 10:00 Uhr, vor Ort in Frankfurt.\n\nZwei Gesprächspartner: Teamleitung und ein Entwickler.",
+      "createdAt": "2026-08-28T09:00:00",
+      "updatedAt": "2026-08-28T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000005",
+      "applicationId": "00000000-0000-4000-8400-000000000002",
+      "categoryId": "00000000-0000-4000-8100-000000000001",
+      "title": "Bewerbung raus",
+      "content": "Per E-Mail an recruiting@ geschickt, weil in der Anzeige keine Portal-URL stand.",
+      "createdAt": "2026-08-20T09:00:00",
+      "updatedAt": "2026-08-20T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000006",
+      "applicationId": "00000000-0000-4000-8400-000000000003",
+      "categoryId": "00000000-0000-4000-8100-000000000004",
+      "title": "Standort und Team",
+      "content": "Tower in der Innenstadt. Team sitzt laut Anzeige im Bereich Group IT.",
+      "createdAt": "2026-08-11T09:00:00",
+      "updatedAt": "2026-08-11T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000007",
+      "applicationId": "00000000-0000-4000-8400-000000000005",
+      "categoryId": "00000000-0000-4000-8100-000000000003",
+      "title": "Absage — was ich mitnehme",
+      "content": "Absage ohne Gespräch, Standardtext.\n\n→ Lebenslauf umformulieren: Tätigkeit beschreiben, nicht die Stellenbezeichnung.",
+      "createdAt": "2026-08-25T09:00:00",
+      "updatedAt": "2026-08-25T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000008",
+      "applicationId": "00000000-0000-4000-8400-000000000004",
+      "categoryId": "00000000-0000-4000-8100-000000000001",
+      "title": "Noch offen",
+      "content": "Anschreiben fehlt noch. Django-Erfahrung ist hier der stärkste Punkt.",
+      "createdAt": "2026-08-21T09:00:00",
+      "updatedAt": "2026-08-21T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000009",
+      "applicationId": null,
+      "categoryId": "00000000-0000-4000-8100-000000000001",
+      "title": "Elevator Pitch",
+      "content": "Einsteiger mit Fokus auf Backend (Java, Spring Boot). Im Abschlussprojekt eine REST-API mit Datenbank gebaut.\n\nSuche einen Einstieg, bei dem ich nah am Code bleibe.",
+      "createdAt": "2026-08-10T09:00:00",
+      "updatedAt": "2026-08-29T09:00:00"
+    },
+    {
+      "id": "00000000-0000-4000-8500-000000000010",
+      "applicationId": null,
+      "categoryId": null,
+      "title": "Gehaltsvorstellung",
+      "content": "Einstieg: 52–56k laut Gehaltsvergleich. Untergrenze 50k.",
+      "createdAt": "2026-08-05T09:00:00",
+      "updatedAt": "2026-08-05T09:00:00"
+    }
+  ]
+}

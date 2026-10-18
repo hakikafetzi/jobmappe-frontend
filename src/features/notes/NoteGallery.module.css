@@ -1,0 +1,157 @@
+/* Feste Kartenhöhe: Die Seitengröße zählt, wie viele Karten in die Fläche passen (noteGrid.ts) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min), 100%), 1fr));
+  grid-auto-rows: var(--card-h);
+  gap: var(--card-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* min-width: 0, sonst drückt nicht umbrechender Text die Spalte breiter */
+.cell {
+  display: flex;
+  min-width: 0;
+}
+
+/* Links das Mini-Blatt, rechts die Angaben */
+.card {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 14px;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.card:hover {
+  --sheet-bg: var(--accent-soft);
+  --sheet-fold: color-mix(in srgb, var(--accent) 25%, transparent);
+
+  border-color: var(--ink-3);
+  box-shadow: var(--shadow-md);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 22px;
+}
+
+/* Nur das Datum: aus dem Fluss nehmen, an die Stelle oben rechts, wo es sonst auch steht */
+.dateOnly {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 2px 8px 2px 7px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.category svg {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+}
+
+.categoryName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--ink-3);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Eine Zeile, damit alles in die feste Kartenhöhe passt */
+.title {
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subject {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: 12.3px;
+  line-height: 1.4;
+}
+
+.job,
+.company {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.job {
+  color: var(--ink-2);
+}
+
+.company,
+.lone {
+  color: var(--ink-3);
+}
+
+.lone {
+  font-size: 12.3px;
+}
+
+@media (max-width: 760px) {
+  .card {
+    padding: 12px;
+  }
+
+  .dateOnly {
+    top: 12px;
+    right: 12px;
+  }
+}

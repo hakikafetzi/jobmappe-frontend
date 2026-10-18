@@ -1,0 +1,116 @@
+/* Design-Tokens. Einzige Stelle für Farben, Radien, Schatten und Layout-Maße.
+   Dunkel folgt dem System; [data-theme] erzwingt ein Schema (Einstellung „Erscheinungsbild“, shared/theme). */
+:root {
+  --canvas: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+  --surface-3: #f1f3f5;
+  --ink: #1a1d23;
+  --ink-2: #5b6270;
+  --ink-3: #8b92a0;
+  --hair: #e3e6eb;
+  --hair-2: #edeff3;
+  --accent: #2b5ce6;
+  --accent-hover: #2450cc;
+  --accent-soft: #edf2fe;
+  --accent-line: #c5d6fb;
+  --green: #127a52;
+  --green-soft: #e8f5f0;
+  --green-line: #bfe0d3;
+  --amber: #9a6410;
+  --amber-soft: #fbf2e3;
+  --amber-line: #ebdaba;
+  --red: #b4382e;
+  --red-soft: #fbedec;
+  --red-line: #efcfcc;
+  --violet: #6c4bb6;
+
+  --shadow: 0 1px 3px rgba(26, 29, 35, 0.06);
+  --shadow-md: 0 4px 12px rgba(26, 29, 35, 0.1);
+  --shadow-lg: 0 16px 48px rgba(26, 29, 35, 0.2);
+  --overlay: rgba(26, 29, 35, 0.4);
+
+  --r: 8px;
+  --r-lg: 10px;
+  --r-xl: 12px;
+  --r-2xl: 14px;
+  --r-pill: 999px;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --wrap: 1280px;
+  --topbar-h: 60px;
+  /* Mobile-Dock (≤ 760 px) */
+  --dock: 64px;
+  --dock-gap: 8px;
+  --dock-space: calc(var(--dock) + var(--dock-gap) * 2 + env(safe-area-inset-bottom, 0px));
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --canvas: #0e0e10;
+    --surface: #18181b;
+    --surface-2: #1f1f23;
+    --surface-3: #27272a;
+    --ink: #ececee;
+    --ink-2: #b8b8c0;
+    --ink-3: #8f8f99;
+    --hair: #2a2a2f;
+    --hair-2: #222226;
+    --accent: #6b93f5;
+    --accent-hover: #7fa2f7;
+    --accent-soft: #24293a;
+    --accent-line: #2f3a58;
+    --green: #4cbf95;
+    --green-soft: #1f2f2c;
+    --green-line: #27473d;
+    --amber: #d6a455;
+    --amber-soft: #332c23;
+    --amber-line: #4d3f2b;
+    --red: #e07c72;
+    --red-soft: #342627;
+    --red-line: #503433;
+    --violet: #b69ae8;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+    --overlay: rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --canvas: #0e0e10;
+  --surface: #18181b;
+  --surface-2: #1f1f23;
+  --surface-3: #27272a;
+  --ink: #ececee;
+  --ink-2: #b8b8c0;
+  --ink-3: #8f8f99;
+  --hair: #2a2a2f;
+  --hair-2: #222226;
+  --accent: #6b93f5;
+  --accent-hover: #7fa2f7;
+  --accent-soft: #24293a;
+  --accent-line: #2f3a58;
+  --green: #4cbf95;
+  --green-soft: #1f2f2c;
+  --green-line: #27473d;
+  --amber: #d6a455;
+  --amber-soft: #332c23;
+  --amber-line: #4d3f2b;
+  --red: #e07c72;
+  --red-soft: #342627;
+  --red-line: #503433;
+  --violet: #b69ae8;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --overlay: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}

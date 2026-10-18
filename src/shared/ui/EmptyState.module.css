@@ -1,0 +1,97 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 40px 16px;
+  color: var(--ink-3);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.compact {
+  padding: 24px 12px;
+}
+
+.fill {
+  flex: 1;
+  align-self: stretch;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 10px;
+  border-radius: var(--r-2xl);
+  background: var(--surface-3);
+  color: var(--ink-3);
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.compact .icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 6px;
+  border-radius: var(--r-lg);
+}
+
+.compact .icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.large .icon {
+  width: 76px;
+  height: 76px;
+  margin-bottom: 14px;
+  border-radius: var(--r-2xl);
+}
+
+.large .icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.title {
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.text {
+  max-width: 44ch;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.large .title {
+  font-size: 17px;
+}
+
+.large .text {
+  font-size: 13.5px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.compact .actions {
+  margin-top: 10px;
+}
+
+.footnote {
+  margin-top: 10px;
+}

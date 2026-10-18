@@ -1,0 +1,21 @@
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+/* Etwas größer als die Schrift, mittig auf der ersten Zeile */
+.icon {
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1.1em;
+  margin-top: calc((1lh - 1.1em) / 2);
+}
+
+.centered {
+  justify-content: center;
+  margin-top: 24px;
+  color: var(--ink-3);
+  font-size: 12.5px;
+  text-align: center;
+}

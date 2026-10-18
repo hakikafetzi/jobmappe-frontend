@@ -1,0 +1,145 @@
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  transition: opacity 0.12s;
+}
+
+/* Bisheriger Eintrag, während der neue lädt: erst nach kurzer Zeit blasser, damit schnelle
+   Wechsel nicht flackern; zurück sofort */
+.busy {
+  opacity: 0.6;
+  transition-delay: 0.15s;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 30px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.headText {
+  flex: 1;
+  min-width: 0;
+}
+
+.back {
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.titleRow .meta {
+  margin-top: 4px;
+}
+
+.meta {
+  margin-top: 6px;
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* Etwas abgesetzt von den Chips */
+.tools {
+  display: flex;
+  gap: 6px;
+  margin-left: 6px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.actions > * {
+  min-width: 170px;
+}
+
+.scroll {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.section {
+  flex-shrink: 0;
+  padding: 22px 30px 26px;
+  border-top: 1px solid var(--hair);
+}
+
+.grow {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+}
+
+.section:first-child {
+  border-top: none;
+}
+
+.sectionTitle {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 760px) {
+  /* Die Icon-Aktionen brechen hier in eine eigene Zeile um */
+  .tools {
+    margin-left: 0;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .actions > * {
+    min-width: 0;
+  }
+
+  .section {
+    padding: 18px;
+  }
+}
