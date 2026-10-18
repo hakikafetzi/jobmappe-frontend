@@ -1,9 +1,15 @@
+import { Link } from 'react-router'
+import { paths } from '../../app/paths'
 import { COMPACT_QUERY, useMediaQuery } from '../../shared/hooks/useMediaQuery'
 import { useDisplayName } from '../../shared/settings/displayName'
+import { UserIcon } from '../../shared/ui/icons'
 import styles from './HomeHero.module.css'
 import { greetingFor } from './homeText'
 
-/** Kopf der Startseite: Datum, Uhrzeit und Begrüßung (mit dem Namen aus den Einstellungen). */
+/**
+ * Kopf der Startseite: Avatar (führt zu den Einstellungen), Datum, Uhrzeit und Begrüßung mit dem
+ * Namen aus den Einstellungen.
+ */
 export function HomeHero({ now }: { now: Date }) {
   const compact = useMediaQuery(COMPACT_QUERY)
   const [name] = useDisplayName()
@@ -17,12 +23,17 @@ export function HomeHero({ now }: { now: Date }) {
 
   return (
     <section className={styles.hero} aria-label="Übersicht">
-      <div className={styles.clock}>
-        <time dateTime={now.toISOString()}>{date}</time>
-        <span className={styles.dot} aria-hidden="true" />
-        <span>{time}</span>
+      <Link to={paths.settings()} className={styles.avatar} aria-label="Einstellungen öffnen">
+        <UserIcon className={styles.avatarIcon} />
+      </Link>
+      <div className={styles.text}>
+        <div className={styles.clock}>
+          <time dateTime={now.toISOString()}>{date}</time>
+          <span className={styles.dot} aria-hidden="true" />
+          <span>{time}</span>
+        </div>
+        <h1 className={styles.greeting}>{greetingFor(now.getHours(), name)}</h1>
       </div>
-      <h1 className={styles.greeting}>{greetingFor(now.getHours(), name)}</h1>
     </section>
   )
 }

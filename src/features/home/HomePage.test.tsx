@@ -54,5 +54,9 @@ describe('HomePage', () => {
     localStorage.setItem(DISPLAY_NAME_KEY, 'Anna Beispiel')
     renderWithApp(<HomePage />)
     expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(/, Anna$/)
+    expect(screen.getByRole('link', { name: 'Einstellungen öffnen' })).toHaveAttribute(
+      'href',
+      '/einstellungen',
+    )
   })
 })
