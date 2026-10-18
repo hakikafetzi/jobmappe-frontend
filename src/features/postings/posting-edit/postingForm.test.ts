@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { JobPostingDetail } from '../../../api/types'
+import { INVALID_URL } from '../../../shared/lib/url'
 import { toFormValues, toPostingRequest } from './postingForm'
 
 const posting: JobPostingDetail = {
@@ -38,10 +39,19 @@ describe('Stelle bearbeiten: Formular → Anfrage', () => {
 
   it('meldet fehlende Pflichtfelder und Daten in der Zukunft', () => {
     const v = toFormValues(posting)
-    expect(toPostingRequest({ ...v, url: ' ' }, '2026-09-01')).toMatchObject({ error: { field: 'url' } })
-    expect(toPostingRequest({ ...v, title: '' }, '2026-09-01')).toMatchObject({ error: { field: 'title' } })
-    expect(toPostingRequest({ ...v, publishedAt: '2026-09-02' }, '2026-09-01')).toMatchObject({
-      error: { field: 'publishedAt' },
+    expect(toPostingRequest({ ...v, url: ' ', title: '' }, '2026-09-01')).toEqual({
+      errors: { url: 'Bitte den Link zur Anzeige eintragen.', title: 'Bitte einen Titel eingeben.' },
+    })
+    expect(toPostingRequest({ ...v, publishedAt: '2026-09-02' }, '2026-09-01')).toEqual({
+      errors: { publishedAt: 'Das Datum darf nicht in der Zukunft liegen.' },
+    })
+  })
+
+  it('verlangt einen öffnbaren Link', () => {
+    const v = toFormValues(posting)
+    expect(toPostingRequest({ ...v, url: 'ftp://x' }, '2026-09-01')).toEqual({ errors: { url: INVALID_URL } })
+    expect(toPostingRequest({ ...v, url: ' firma.example/job ' }, '2026-09-01')).toMatchObject({
+      body: { url: 'https://firma.example/job' },
     })
   })
 

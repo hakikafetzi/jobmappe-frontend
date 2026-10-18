@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { INVALID_URL } from '../../../shared/lib/url'
 import { toCompanyRequest, toFormValues } from './companyForm'
 
 describe('toCompanyRequest', () => {
@@ -22,10 +23,18 @@ describe('toCompanyRequest', () => {
     })
   })
 
-  it('verlangt einen Namen', () => {
-    expect(toCompanyRequest({ name: '  ', website: '', street: '', postalCode: '', city: '' })).toEqual({
-      error: 'Bitte einen Namen eingeben.',
+  it('verlangt einen Namen und eine öffnbare Webseite', () => {
+    expect(
+      toCompanyRequest({ name: '  ', website: 'foo bar', street: '', postalCode: '', city: '' }),
+    ).toEqual({
+      errors: { name: 'Bitte einen Namen eingeben.', website: INVALID_URL },
     })
+  })
+
+  it('speichert die Webseite wie eingegeben', () => {
+    expect(
+      toCompanyRequest({ name: 'A', website: ' firma.example ', street: '', postalCode: '', city: '' }),
+    ).toMatchObject({ body: { website: 'firma.example' } })
   })
 
   it('übernimmt fehlende Angaben als leere Felder', () => {

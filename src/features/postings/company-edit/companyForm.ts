@@ -1,5 +1,6 @@
 import type { CompanyRequest, CompanyResponse } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
+import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
 
 type CompanyFormValues = {
   name: string
@@ -39,12 +40,19 @@ export function toFormValues(c: CompanyResponse): CompanyFormValues {
 }
 
 /**
- * Baut den Body für POST/PUT. PUT ersetzt alle Angaben: leere Felder werden als null gesendet und
- * damit entfernt (der Vertrag verbietet Strings nur aus Leerzeichen).
+ * Prüft das Formular und baut den Body für POST/PUT. PUT ersetzt alle Angaben: leere Felder werden
+ * als null gesendet und damit entfernt (der Vertrag verbietet Strings nur aus Leerzeichen).
+ * Die Webseite wird gespeichert wie eingegeben (z. B. „firma.de“), muss sich aber öffnen lassen.
  */
-export function toCompanyRequest(v: CompanyFormValues): { error: string } | { body: CompanyRequest } {
+export function toCompanyRequest(
+  v: CompanyFormValues,
+): { errors: CompanyFieldErrors } | { body: CompanyRequest } {
+  const errors: CompanyFieldErrors = {}
   const name = v.name.trim()
-  if (!name) return { error: 'Bitte einen Namen eingeben.' }
+  if (!name) errors.name = 'Bitte einen Namen eingeben.'
+  const website = v.website.trim()
+  if (website && !isWebUrl(normalizeUrl(website))) errors.website = INVALID_URL
+  if (Object.keys(errors).length) return { errors }
   return {
     body: {
       name,

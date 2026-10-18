@@ -53,16 +53,18 @@ export function CategoryDialog({
       }
     >
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault()
           submit()
         }}
       >
-        <Field label="Name" error={error}>
+        <Field label="Name" error={error} required>
           {(id) => (
             <TextInput
               id={id}
               autoFocus
+              required
               placeholder="z. B. Gehaltsverhandlung"
               maxLength={255}
               value={name}

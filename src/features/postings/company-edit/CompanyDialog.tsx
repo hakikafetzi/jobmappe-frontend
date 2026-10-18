@@ -4,7 +4,7 @@ import { serverFieldErrors } from '../../../api/errors'
 import type { CompanyResponse } from '../../../api/types'
 import { Button } from '../../../shared/ui/Button'
 import { ModalDialog } from '../../../shared/ui/Dialog'
-import { Field, TextInput } from '../../../shared/ui/Field'
+import { Field, RequiredNote, TextInput } from '../../../shared/ui/Field'
 import { useToast } from '../../../shared/ui/toastContext'
 import styles from './CompanyDialog.module.css'
 import {
@@ -46,8 +46,8 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
 
   const submit = () => {
     const result = toCompanyRequest(values)
-    if ('error' in result) {
-      showErrors({ name: result.error })
+    if ('errors' in result) {
+      showErrors(result.errors)
       return
     }
     save.mutate(
@@ -79,12 +79,14 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
       }
     >
       <form
+        noValidate
         onSubmit={(e) => {
           e.preventDefault()
           submit()
         }}
       >
-        <Field label="Name" id={idOf('name')} error={errors.name}>
+        <RequiredNote />
+        <Field label="Name" id={idOf('name')} error={errors.name} required>
           {(id) => (
             <TextInput
               id={id}
@@ -100,7 +102,7 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
           {(id) => (
             <TextInput
               id={id}
-              placeholder="beispiel.de"
+              placeholder="z. B. www.firmenname.de"
               maxLength={255}
               value={values.website}
               onChange={(e) => set('website', e.target.value)}
@@ -117,7 +119,7 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
             {(id) => (
               <TextInput
                 id={id}
-                placeholder="Musterstraße 12"
+                placeholder="z. B. Musterstraße 12"
                 maxLength={255}
                 autoComplete="off"
                 value={values.street}
@@ -129,7 +131,7 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
             {(id) => (
               <TextInput
                 id={id}
-                placeholder="60311"
+                placeholder="z. B. 60311"
                 maxLength={20}
                 inputMode="numeric"
                 autoComplete="off"
@@ -142,7 +144,7 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
             {(id) => (
               <TextInput
                 id={id}
-                placeholder="Frankfurt am Main"
+                placeholder="z. B. Frankfurt am Main"
                 maxLength={255}
                 autoComplete="off"
                 value={values.city}

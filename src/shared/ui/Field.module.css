@@ -10,6 +10,28 @@
   font-weight: 500;
 }
 
+.labelRow {
+  display: flex;
+  gap: 3px;
+  align-items: baseline;
+  margin-bottom: 6px;
+  font-size: 12.5px;
+}
+
+.labelRow > .label {
+  margin-bottom: 0;
+}
+
+.required {
+  color: var(--red);
+}
+
+.requiredNote {
+  margin: 0 0 14px;
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
 .hint {
   margin-top: 6px;
   color: var(--ink-3);

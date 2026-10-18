@@ -14,10 +14,14 @@ const CHANNELS = (Object.keys(APP_CHANNEL) as ApplicationChannel[]).map((value) 
 type Props = {
   value: ViaInput
   onChange: (value: ViaInput) => void
+  /** Fehler am Link (z. B. kein gültiger Link) */
+  urlError?: string
+  /** id des Link-Felds (zum Fokussieren bei Fehlern) */
+  urlId?: string
 }
 
 /** Felder für den Bewerbungsweg (Weg als Auswahl + Link zum Portal). */
-export function ViaFields({ value, onChange }: Props) {
+export function ViaFields({ value, onChange, urlError, urlId }: Props) {
   return (
     <>
       <div className={styles.way}>
@@ -28,12 +32,12 @@ export function ViaFields({ value, onChange }: Props) {
           options={CHANNELS}
         />
       </div>
-      <Field label="Link zum Bewerbungsportal">
+      <Field label="Link zum Bewerbungsportal" id={urlId} error={urlError}>
         {(id) => (
           <TextInput
             id={id}
             type="url"
-            placeholder="https://…"
+            placeholder="z. B. https://bewerbung.firmenname.de/status"
             maxLength={1000}
             value={value.url}
             onChange={(e) => onChange({ ...value, url: e.target.value })}

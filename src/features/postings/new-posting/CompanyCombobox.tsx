@@ -17,6 +17,8 @@ type Props = {
   id: string
   value: CompanyChoice | null
   onChange: (value: CompanyChoice | null) => void
+  /** Pflichtfeld (für Screenreader) */
+  required?: boolean
 }
 
 /**
@@ -24,7 +26,7 @@ type Props = {
  * beim Tippen: Das Backend sucht die Eingabe im Firmennamen (`q`), die Treffer kommen seitenweise.
  * Die Eingabe ist zugleich der Name einer neuen Firma.
  */
-export function CompanyCombobox({ id, value, onChange }: Props) {
+export function CompanyCombobox({ id, value, onChange, required }: Props) {
   const [input, setInput] = useState('')
   // Suchbegriff fürs Backend: die Eingabe, entprellt
   const [query, setQuery] = useState('')
@@ -99,6 +101,7 @@ export function CompanyCombobox({ id, value, onChange }: Props) {
         aria-expanded={expanded}
         aria-controls={listId}
         aria-autocomplete="list"
+        aria-required={required}
         aria-activedescendant={expanded && options[active] ? `${listId}-${active}` : undefined}
         placeholder="Firma wählen oder neuen Namen eingeben"
         autoComplete="off"
