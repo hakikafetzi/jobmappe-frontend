@@ -7,9 +7,9 @@ describe('Bewerbungsweg: PATCH nur mit geänderten, gesetzten Werten', () => {
     const current = { appliedVia: 'EMAIL', portalUrl: null } as const
     expect(buildViaPatch(current, { way: 'EMAIL', url: '' })).toEqual({})
     expect(buildViaPatch(current, { way: null, url: '  ' })).toEqual({})
-    expect(buildViaPatch(current, { way: 'ONLINE', url: ' https://p ' })).toEqual({
+    expect(buildViaPatch(current, { way: 'ONLINE', url: ' https://p.example ' })).toEqual({
       appliedVia: 'ONLINE',
-      portalUrl: 'https://p',
+      portalUrl: 'https://p.example',
     })
   })
 })

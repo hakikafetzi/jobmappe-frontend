@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { INVALID_POSTAL_CODE } from '../../../shared/lib/postalCode'
 import { INVALID_URL } from '../../../shared/lib/url'
 import { EMPTY_VALUES, toCreatePostingInput } from './newPostingForm'
 
@@ -13,7 +14,7 @@ describe('Stelle erfassen: Formular → Anfrage', () => {
         company: 'Bitte eine Firma auswählen oder anlegen.',
       },
     })
-    const noCompany = { ...EMPTY_VALUES, url: 'https://x', title: 'Dev' }
+    const noCompany = { ...EMPTY_VALUES, url: 'https://x.example', title: 'Dev' }
     expect(toCreatePostingInput(noCompany, '2026-09-01')).toEqual({
       errors: { company: 'Bitte eine Firma auswählen oder anlegen.' },
     })
@@ -29,21 +30,23 @@ describe('Stelle erfassen: Formular → Anfrage', () => {
     })
   })
 
-  it('prüft die Webseite einer neuen Firma', () => {
+  it('prüft Webseite und PLZ einer neuen Firma', () => {
     const v = {
       ...EMPTY_VALUES,
-      url: 'https://x',
+      url: 'https://x.example',
       title: 'Dev',
       company: { kind: 'new' as const, name: 'Neue Firma GmbH' },
-      newCompany: { ...EMPTY_VALUES.newCompany, website: 'keine webseite' },
+      newCompany: { ...EMPTY_VALUES.newCompany, website: 'keine webseite', postalCode: 'Frankfurt' },
     }
-    expect(toCreatePostingInput(v, '2026-09-01')).toEqual({ errors: { website: INVALID_URL } })
+    expect(toCreatePostingInput(v, '2026-09-01')).toEqual({
+      errors: { website: INVALID_URL, postalCode: INVALID_POSTAL_CODE },
+    })
   })
 
   it('verbietet ein Veröffentlichungsdatum in der Zukunft', () => {
     const v = {
       ...EMPTY_VALUES,
-      url: 'https://x',
+      url: 'https://x.example',
       title: 'Dev',
       company: { kind: 'existing' as const, company },
       publishedAt: '2026-09-02',
@@ -54,13 +57,13 @@ describe('Stelle erfassen: Formular → Anfrage', () => {
   })
 
   it('baut die Anfrage für vorhandene und neue Firmen', () => {
-    const base = { ...EMPTY_VALUES, url: ' https://x ', title: ' Dev ', location: '  ' }
+    const base = { ...EMPTY_VALUES, url: ' https://x.example ', title: ' Dev ', location: '  ' }
     expect(toCreatePostingInput({ ...base, company: { kind: 'existing', company } }, '2026-09-01')).toEqual({
       input: {
         companyId: 'c1',
         posting: {
           title: 'Dev',
-          url: 'https://x',
+          url: 'https://x.example',
           location: null,
           publishedAt: null,
           description: null,

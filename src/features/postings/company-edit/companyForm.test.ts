@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { INVALID_POSTAL_CODE } from '../../../shared/lib/postalCode'
 import { INVALID_URL } from '../../../shared/lib/url'
 import { toCompanyRequest, toFormValues } from './companyForm'
 
@@ -28,6 +29,12 @@ describe('toCompanyRequest', () => {
       toCompanyRequest({ name: '  ', website: 'foo bar', street: '', postalCode: '', city: '' }),
     ).toEqual({
       errors: { name: 'Bitte einen Namen eingeben.', website: INVALID_URL },
+    })
+  })
+
+  it('prüft eine angegebene PLZ', () => {
+    expect(toCompanyRequest({ name: 'A', website: '', street: '', postalCode: 'abc', city: '' })).toEqual({
+      errors: { postalCode: INVALID_POSTAL_CODE },
     })
   })
 

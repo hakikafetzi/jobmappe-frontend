@@ -16,7 +16,7 @@ const posting: JobPostingDetail = {
   title: 'Dev',
   description: null,
   location: 'Frankfurt',
-  url: 'https://x',
+  url: 'https://x.example',
   status: 'ACTIVE',
   hasApplication: false,
   applicationId: null,
@@ -28,7 +28,7 @@ const posting: JobPostingDetail = {
 describe('Stelle bearbeiten: Formular → Anfrage', () => {
   it('übernimmt die Stelle ins Formular', () => {
     expect(toFormValues(posting)).toEqual({
-      url: 'https://x',
+      url: 'https://x.example',
       title: 'Dev',
       location: 'Frankfurt',
       publishedAt: '2026-08-21',
@@ -66,7 +66,7 @@ describe('Stelle bearbeiten: Formular → Anfrage', () => {
     expect(toPostingRequest(v, '2026-09-01')).toEqual({
       body: {
         title: 'Senior Dev',
-        url: 'https://x',
+        url: 'https://x.example',
         location: null,
         publishedAt: null,
         description: null,

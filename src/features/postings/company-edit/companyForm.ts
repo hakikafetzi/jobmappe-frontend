@@ -1,5 +1,6 @@
 import type { CompanyRequest, CompanyResponse } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
+import { INVALID_POSTAL_CODE, isPostalCode } from '../../../shared/lib/postalCode'
 import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
 
 type CompanyFormValues = {
@@ -42,7 +43,8 @@ export function toFormValues(c: CompanyResponse): CompanyFormValues {
 /**
  * Prüft das Formular und baut den Body für POST/PUT. PUT ersetzt alle Angaben: leere Felder werden
  * als null gesendet und damit entfernt (der Vertrag verbietet Strings nur aus Leerzeichen).
- * Die Webseite wird gespeichert wie eingegeben (z. B. „firma.de“), muss sich aber öffnen lassen.
+ * Die Webseite wird gespeichert wie eingegeben (z. B. „firma.de“), muss sich aber öffnen lassen;
+ * eine angegebene PLZ muss wie eine aussehen.
  */
 export function toCompanyRequest(
   v: CompanyFormValues,
@@ -52,6 +54,7 @@ export function toCompanyRequest(
   if (!name) errors.name = 'Bitte einen Namen eingeben.'
   const website = v.website.trim()
   if (website && !isWebUrl(normalizeUrl(website))) errors.website = INVALID_URL
+  if (v.postalCode.trim() && !isPostalCode(v.postalCode)) errors.postalCode = INVALID_POSTAL_CODE
   if (Object.keys(errors).length) return { errors }
   return {
     body: {

@@ -43,7 +43,7 @@ describe('NewPostingDialog', () => {
     const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
     const before = currentBackend().db.companies.length
 
-    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x')
+    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x.example')
     await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
     // Die Liste öffnet erst beim Tippen und zeigt die Treffer der Backend-Suche
     await user.click(screen.getByRole('combobox', { name: 'Firma' }))
@@ -136,7 +136,7 @@ describe('NewPostingDialog', () => {
       ),
     )
     const { user } = renderWithApp(<NewPostingDialog onClose={() => {}} />)
-    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x')
+    await user.type(screen.getByLabelText('Link zur Anzeige'), 'https://x.example')
     await user.type(screen.getByLabelText('Titel der Stelle'), 'Dev')
     await user.type(screen.getByRole('combobox', { name: 'Firma' }), 'energie')
     await user.keyboard('{Enter}')
