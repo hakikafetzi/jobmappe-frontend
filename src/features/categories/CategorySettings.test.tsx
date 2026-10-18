@@ -48,6 +48,18 @@ describe('CategorySettings', () => {
     expect(names().filter((n) => n.toLowerCase() === 'recherche')).toHaveLength(1)
   })
 
+  it('lehnt einen Namen ohne Buchstaben oder Ziffern ab', async () => {
+    const { user } = renderWithApp(<CategorySettings />)
+    expect(await screen.findByText('Vorbereitung')).toBeInTheDocument()
+    const before = names()
+
+    await user.click(screen.getByRole('button', { name: '+ Ordner' }))
+    await user.type(screen.getByLabelText('Name'), '!!!')
+    await user.click(screen.getByRole('button', { name: 'Speichern' }))
+    expect(screen.getByRole('alert')).toHaveTextContent('Bitte einen gültigen Namen eingeben.')
+    expect(names()).toEqual(before)
+  })
+
   it('bricht das Löschen ab, ohne etwas zu ändern', async () => {
     const { user } = renderWithApp(<CategorySettings />)
     await user.click(await screen.findByRole('button', { name: 'Recherche löschen' }))

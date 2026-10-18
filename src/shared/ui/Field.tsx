@@ -40,7 +40,7 @@ export function Field({ label, hint, error, className, id: ownId, group, require
   )
   return (
     <div
-      className={cx(styles.field, className)}
+      className={cx(styles.field, !!error && styles.invalid, className)}
       role={group ? 'group' : undefined}
       aria-labelledby={group ? labelId : undefined}
     >

@@ -90,6 +90,9 @@ describe('NewPostingDialog', () => {
     expect(screen.getByRole('textbox', { name: 'Titel der Stelle' })).toBeRequired()
     expect(screen.getByRole('combobox', { name: 'Firma' })).toHaveAttribute('aria-required', 'true')
     expect(screen.getByRole('textbox', { name: 'Ort' })).not.toBeRequired()
+    // Hinweis unten links neben den Knöpfen
+    const footer = screen.getByRole('button', { name: 'Abbrechen' }).parentElement
+    expect(footer).toHaveTextContent('* Pflichtfeld')
   })
 
   it('meldet alle fehlenden Pflichtfelder am Feld', async () => {

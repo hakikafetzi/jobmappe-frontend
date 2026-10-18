@@ -1,7 +1,6 @@
 import type { CreatePostingInput } from '../../../api/jobPostings'
 import { orNull } from '../../../shared/lib/format'
-import { INVALID_POSTAL_CODE, isPostalCode } from '../../../shared/lib/postalCode'
-import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
+import { companyFieldErrors } from '../company-edit/companyForm'
 import { postingErrors, toPostingBody } from '../posting-edit/postingForm'
 import type { CompanyChoice } from './companyOptions'
 
@@ -72,9 +71,10 @@ export function toCreatePostingInput(
   const errors: NewPostingFieldErrors = postingErrors(v, today)
   if (!v.company) errors.company = 'Bitte eine Firma auswählen oder anlegen.'
   if (v.company?.kind === 'new') {
-    const { website, postalCode } = v.newCompany
-    if (website.trim() && !isWebUrl(normalizeUrl(website))) errors.website = INVALID_URL
-    if (postalCode.trim() && !isPostalCode(postalCode)) errors.postalCode = INVALID_POSTAL_CODE
+    // Gleiche Regeln wie im Firmenformular; der Name steht im Feld „Firma“
+    const { name, ...rest } = companyFieldErrors({ ...v.newCompany, name: v.company.name })
+    Object.assign(errors, rest)
+    if (name) errors.company = name
   }
   if (!v.company || Object.keys(errors).length) return { errors }
 

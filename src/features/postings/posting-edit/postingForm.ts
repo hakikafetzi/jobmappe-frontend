@@ -1,6 +1,7 @@
 import type { JobPostingDetail, JobPostingRequest, JobPostingStatus } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
 import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
+import { isJobTitle, isLocation } from '../../../shared/lib/validation'
 
 export type PostingFormValues = {
   url: string
@@ -35,16 +36,19 @@ export function toFormValues(p: JobPostingDetail): PostingFormValues {
 
 /**
  * Feldfehler der Stellenangaben (für Bearbeiten und Erfassen): Pflichtfelder wie im Backend, dazu
- * ein öffnbarer Link — er wird später direkt als `href` verwendet.
+ * Formatregeln und ein öffnbarer Link — er wird später direkt als `href` verwendet.
  */
 export function postingErrors(
-  v: Pick<PostingFormValues, 'url' | 'title' | 'publishedAt'>,
+  v: Pick<PostingFormValues, 'url' | 'title' | 'location' | 'publishedAt'>,
   today: string,
 ): PostingFieldErrors {
   const errors: PostingFieldErrors = {}
   if (!v.title.trim()) errors.title = 'Bitte einen Titel eingeben.'
+  else if (!isJobTitle(v.title)) errors.title = 'Bitte einen aussagekräftigen Titel eingeben.'
   if (!v.url.trim()) errors.url = 'Bitte den Link zur Anzeige eintragen.'
   else if (!isWebUrl(normalizeUrl(v.url))) errors.url = INVALID_URL
+  if (v.location.trim() && !isLocation(v.location))
+    errors.location = 'Bitte einen Ort eingeben (z. B. Frankfurt am Main oder Remote).'
   if (v.publishedAt && v.publishedAt > today)
     errors.publishedAt = 'Das Datum darf nicht in der Zukunft liegen.'
   return errors

@@ -47,6 +47,16 @@ describe('Stelle bearbeiten: Formular → Anfrage', () => {
     })
   })
 
+  it('prüft Titel und Ort auf sinnvolle Eingaben', () => {
+    const v = toFormValues(posting)
+    expect(toPostingRequest({ ...v, title: '1', location: '123' }, '2026-09-01')).toEqual({
+      errors: {
+        title: 'Bitte einen aussagekräftigen Titel eingeben.',
+        location: 'Bitte einen Ort eingeben (z. B. Frankfurt am Main oder Remote).',
+      },
+    })
+  })
+
   it('verlangt einen öffnbaren Link', () => {
     const v = toFormValues(posting)
     expect(toPostingRequest({ ...v, url: 'ftp://x' }, '2026-09-01')).toEqual({ errors: { url: INVALID_URL } })

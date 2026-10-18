@@ -73,4 +73,19 @@ describe('SettingsPanel', () => {
     await user.clear(input)
     expect(localStorage.getItem(DISPLAY_NAME_KEY)).toBeNull()
   })
+
+  it('speichert keinen Namen mit Ziffern oder Sonderzeichen', async () => {
+    localStorage.setItem(DISPLAY_NAME_KEY, 'Anna')
+    const { user } = renderWithApp(<SettingsPanel />)
+    const input = screen.getByRole('textbox', { name: 'Dein Name' })
+
+    await user.type(input, '2')
+    expect(screen.getByRole('alert')).toHaveTextContent('Bitte nur Buchstaben verwenden.')
+    expect(input).toHaveAttribute('aria-invalid', 'true')
+    expect(localStorage.getItem(DISPLAY_NAME_KEY)).toBe('Anna')
+
+    await user.type(input, '{Backspace}-Lena')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(localStorage.getItem(DISPLAY_NAME_KEY)).toBe('Anna-Lena')
+  })
 })

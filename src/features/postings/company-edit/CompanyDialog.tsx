@@ -69,6 +69,7 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
       subtitle={company?.name}
       size="medium"
       onClose={onClose}
+      footerStart={<RequiredNote />}
       footer={
         <>
           <Button onClick={onClose}>Abbrechen</Button>
@@ -85,7 +86,6 @@ export function CompanyDialog({ company, onClose, onSaved }: Props) {
           submit()
         }}
       >
-        <RequiredNote />
         <Field label="Name" id={idOf('name')} error={errors.name} required>
           {(id) => (
             <TextInput

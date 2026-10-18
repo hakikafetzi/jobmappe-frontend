@@ -82,6 +82,7 @@ export function NewPostingDialog({ onClose }: { onClose: () => void }) {
       title="Stelle erfassen"
       size="wide"
       onClose={onClose}
+      footerStart={<RequiredNote />}
       footer={
         <>
           <Button onClick={onClose}>Abbrechen</Button>
@@ -98,7 +99,6 @@ export function NewPostingDialog({ onClose }: { onClose: () => void }) {
           save()
         }}
       >
-        <RequiredNote />
         <Field label="Link zur Anzeige" id={idOf('url')} error={errorFor('url')} required>
           {(id) => (
             <TextInput

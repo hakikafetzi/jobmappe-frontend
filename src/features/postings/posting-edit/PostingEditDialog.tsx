@@ -69,6 +69,7 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
       subtitle={posting.company.name}
       size="wide"
       onClose={onClose}
+      footerStart={<RequiredNote />}
       footer={
         <>
           <Button onClick={onClose}>Abbrechen</Button>
@@ -85,7 +86,6 @@ export function PostingEditDialog({ posting, onClose }: { posting: JobPostingDet
           save()
         }}
       >
-        <RequiredNote />
         <Field label="Titel der Stelle" id={idOf('title')} error={errorFor('title')} required>
           {(id) => (
             <TextInput

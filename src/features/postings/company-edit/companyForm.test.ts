@@ -33,14 +33,40 @@ describe('toCompanyRequest', () => {
   })
 
   it('prüft eine angegebene PLZ', () => {
-    expect(toCompanyRequest({ name: 'A', website: '', street: '', postalCode: 'abc', city: '' })).toEqual({
+    expect(
+      toCompanyRequest({ name: 'Firma AG', website: '', street: '', postalCode: 'abc', city: '' }),
+    ).toEqual({
       errors: { postalCode: INVALID_POSTAL_CODE },
+    })
+  })
+
+  it('prüft Name, Straße und Stadt auf sinnvolle Eingaben', () => {
+    expect(
+      toCompanyRequest({
+        name: '!!',
+        website: '',
+        street: 'Musterstraße',
+        postalCode: '',
+        city: 'Frankfurt1',
+      }),
+    ).toEqual({
+      errors: {
+        name: 'Bitte einen gültigen Firmennamen eingeben.',
+        street: 'Bitte Straße und Hausnummer angeben (z. B. Musterstraße 12).',
+        city: 'Bitte einen gültigen Ortsnamen eingeben.',
+      },
     })
   })
 
   it('speichert die Webseite wie eingegeben', () => {
     expect(
-      toCompanyRequest({ name: 'A', website: ' firma.example ', street: '', postalCode: '', city: '' }),
+      toCompanyRequest({
+        name: 'Firma AG',
+        website: ' firma.example ',
+        street: '',
+        postalCode: '',
+        city: '',
+      }),
     ).toMatchObject({ body: { website: 'firma.example' } })
   })
 

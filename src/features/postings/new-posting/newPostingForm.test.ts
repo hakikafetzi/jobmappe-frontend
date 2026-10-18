@@ -56,6 +56,22 @@ describe('Stelle erfassen: Formular → Anfrage', () => {
     })
   })
 
+  it('meldet einen ungültigen Namen der neuen Firma am Feld „Firma“', () => {
+    const v = {
+      ...EMPTY_VALUES,
+      url: 'https://x.example',
+      title: 'Dev',
+      company: { kind: 'new' as const, name: '!!' },
+      newCompany: { ...EMPTY_VALUES.newCompany, street: 'Ohne Nummer' },
+    }
+    expect(toCreatePostingInput(v, '2026-09-01')).toEqual({
+      errors: {
+        company: 'Bitte einen gültigen Firmennamen eingeben.',
+        street: 'Bitte Straße und Hausnummer angeben (z. B. Musterstraße 12).',
+      },
+    })
+  })
+
   it('baut die Anfrage für vorhandene und neue Firmen', () => {
     const base = { ...EMPTY_VALUES, url: ' https://x.example ', title: ' Dev ', location: '  ' }
     expect(toCreatePostingInput({ ...base, company: { kind: 'existing', company } }, '2026-09-01')).toEqual({
