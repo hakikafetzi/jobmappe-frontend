@@ -1,5 +1,6 @@
 import type { CreatePostingInput } from '../../../api/jobPostings'
 import { orNull } from '../../../shared/lib/format'
+import { normalizeUrl } from '../../../shared/lib/url'
 import { companyFieldErrors } from '../company-edit/companyForm'
 import { postingErrors, toPostingBody } from '../posting-edit/postingForm'
 import type { CompanyChoice } from './companyOptions'
@@ -86,7 +87,7 @@ export function toCreatePostingInput(
         : {
             newCompany: {
               name: v.company.name,
-              website: orNull(v.newCompany.website),
+              website: orNull(normalizeUrl(v.newCompany.website)),
               street: orNull(v.newCompany.street),
               postalCode: orNull(v.newCompany.postalCode),
               city: orNull(v.newCompany.city),

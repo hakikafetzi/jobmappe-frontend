@@ -18,6 +18,7 @@ export function OverviewCard({ app, onEditVia }: { app: ApplicationDetail; onEdi
       <div className={styles.info}>
         <InfoList
           items={[
+            { label: 'Angelegt am', value: fmtDate(app.createdAt) },
             { label: 'Beworben am', value: app.appliedAt ? fmtDate(app.appliedAt) : 'Noch nicht' },
             {
               label: 'Bewerbungsweg',

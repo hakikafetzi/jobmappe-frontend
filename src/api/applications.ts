@@ -18,7 +18,6 @@ import type {
   ApplicationListParams,
   ApplicationPatch,
   ApplicationPriority,
-  ApplicationResponse,
   ApplicationStatus,
   Page,
 } from './types'
@@ -29,9 +28,9 @@ export const applicationsApi = {
   get: (id: string) => http.get<ApplicationDetail>(`/applications/${seg(id)}`),
   /** Kein Request-Body: Backend setzt status=IN_PROGRESS, priority=NONE. */
   start: (jobPostingId: string) =>
-    http.post<ApplicationResponse>(`/job-postings/${seg(jobPostingId)}/applications`),
+    http.post<ApplicationDetail>(`/job-postings/${seg(jobPostingId)}/applications`),
   patch: (id: string, body: ApplicationPatch) =>
-    http.patch<ApplicationResponse>(`/applications/${seg(id)}`, body),
+    http.patch<ApplicationDetail>(`/applications/${seg(id)}`, body),
 }
 
 /** Eine Seite der Bewerbungen; Filter und Sortierung übernimmt das Backend. */

@@ -58,7 +58,7 @@ function PostingDetailCard({ posting, busy }: { posting: JobPostingDetail; busy:
         title={posting.title}
         facts={
           <>
-            <ApplicationPresenceChip hasApplication={posting.hasApplication} />
+            <ApplicationPresenceChip hasApplication={posting.applicationId != null} />
             {posting.status === 'INACTIVE' && <Chip>Anzeige offline</Chip>}
             {archived && <Chip>Archiviert am {fmtDate(posting.archivedAt)}</Chip>}
           </>
@@ -98,7 +98,7 @@ function PostingDetailCard({ posting, busy }: { posting: JobPostingDetail; busy:
               <PenIcon />
             </ToolButton>
             {/* Stellen mit Bewerbung lassen sich nicht archivieren (409) */}
-            {!posting.hasApplication && !archived && (
+            {!posting.applicationId && !archived && (
               <ToolButton label="Archivieren" onClick={() => setArchived(true)} disabled={archive.isPending}>
                 <ArchiveIcon />
               </ToolButton>

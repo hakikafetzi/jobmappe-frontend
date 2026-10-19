@@ -10,21 +10,21 @@ export function countText(text: string): { words: number; chars: number } {
 export const ALL_NOTES = 'all'
 
 /**
- * Ordner-Tabs aus den Kategorien (nach Name sortiert; die Liste ist ein ungeordnetes Array). Der Wert
+ * Ordner-Tabs aus den Kategorien (in der Reihenfolge des Backends, nach Name sortiert). Der Wert
  * eines Tabs ist die Kategorie-ID, gefiltert wird im Backend (`noteCategoryId`). Ein verschwundener
  * Ordner fällt auf „Alle“; solange die Kategorien laden, bleibt der Tab stehen.
  */
 export function categoryTabs(categories: NoteCategory[] | undefined, tab: string) {
-  const sorted = (categories ?? []).toSorted((a, b) => a.name.localeCompare(b.name, 'de'))
-  const known = tab === ALL_NOTES || !categories || sorted.some((c) => c.id === tab)
+  const list = categories ?? []
+  const known = tab === ALL_NOTES || !categories || list.some((c) => c.id === tab)
   const activeTab = known ? tab : ALL_NOTES
   return {
-    tabs: [{ value: ALL_NOTES, label: 'Alle' }, ...sorted.map((c) => ({ value: c.id, label: c.name }))],
+    tabs: [{ value: ALL_NOTES, label: 'Alle' }, ...list.map((c) => ({ value: c.id, label: c.name }))],
     activeTab,
     /** Für den Request; undefined = alle Ordner */
     categoryId: activeTab === ALL_NOTES ? undefined : activeTab,
     /** Name des aktiven Ordners (Vorauswahl neuer Notizen) */
-    categoryName: sorted.find((c) => c.id === activeTab)?.name ?? null,
+    categoryName: list.find((c) => c.id === activeTab)?.name ?? null,
   }
 }
 

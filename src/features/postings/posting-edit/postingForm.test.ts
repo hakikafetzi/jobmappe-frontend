@@ -18,7 +18,6 @@ const posting: JobPostingDetail = {
   location: 'Frankfurt',
   url: 'https://x.example',
   status: 'ACTIVE',
-  hasApplication: false,
   applicationId: null,
   publishedAt: '2026-08-21T00:00:00',
   createdAt: '2026-08-21T10:00:00',
