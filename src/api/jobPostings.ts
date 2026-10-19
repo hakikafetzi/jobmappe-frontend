@@ -13,12 +13,11 @@ import { nextPageParam, PAGE_SIZE } from './pagination'
 import { queryKeys } from './queryKeys'
 import type {
   CompanyRequest,
-  CompanyResponse,
+  CompanyDetail,
   JobPostingArchiveRequest,
   JobPostingCompact,
   JobPostingDetail,
   JobPostingRequest,
-  JobPostingResponse,
   Page,
   PostingListParams,
 } from './types'
@@ -27,11 +26,11 @@ const jobPostingsApi = {
   list: (params: PostingListParams) => http.get<Page<JobPostingCompact>>(withParams('/job-postings', params)),
   get: (id: string) => http.get<JobPostingDetail>(`/job-postings/${seg(id)}`),
   create: (companyId: string, body: JobPostingRequest) =>
-    http.post<JobPostingResponse>(`/companies/${seg(companyId)}/job-postings`, body),
+    http.post<JobPostingDetail>(`/companies/${seg(companyId)}/job-postings`, body),
   update: (id: string, body: JobPostingRequest) =>
-    http.put<JobPostingResponse>(`/job-postings/${seg(id)}`, body),
+    http.put<JobPostingDetail>(`/job-postings/${seg(id)}`, body),
   archive: (id: string, body: JobPostingArchiveRequest) =>
-    http.patch<JobPostingResponse>(`/job-postings/${seg(id)}/archive`, body),
+    http.patch<JobPostingDetail>(`/job-postings/${seg(id)}/archive`, body),
 }
 
 /** Eine Seite der Stellen; Filter und Sortierung übernimmt das Backend. Auch zum Vorabladen. */
@@ -73,9 +72,9 @@ export type CreatePostingInput =
  * muss sie verwenden, sonst gäbe es einen 409 (Firmennamen sind eindeutig).
  */
 export class CreatePostingError extends Error {
-  readonly createdCompany: CompanyResponse | null
+  readonly createdCompany: CompanyDetail | null
 
-  constructor(cause: unknown, createdCompany: CompanyResponse | null) {
+  constructor(cause: unknown, createdCompany: CompanyDetail | null) {
     super('Die Stelle konnte nicht angelegt werden', { cause })
     this.name = 'CreatePostingError'
     this.createdCompany = createdCompany
@@ -141,7 +140,7 @@ export function useUpdatePosting() {
 
 /**
  * Archivieren bzw. Wiederherstellen. Die Listeneinträge kennen den Archivstatus nicht, nur das
- * Detail (und die Antwort hier); der Filter „Archiviert“ wird neu geladen.
+ * Detail; die Antwort ist das neue Detail. Der Filter „Archiviert“ wird neu geladen.
  * 409: schon (nicht) archiviert oder es gibt eine Bewerbung.
  */
 export function useArchivePosting() {
@@ -153,11 +152,7 @@ export function useArchivePosting() {
       errorMessage: 'Der Archivstatus konnte nicht geändert werden',
       conflictMessage: 'Der Archivstatus der Stelle hat sich inzwischen geändert.',
     } satisfies MutationErrorMeta,
-    onSuccess: (res) =>
-      qc.setQueryData<JobPostingDetail>(
-        queryKeys.postings.detail(res.id),
-        (detail) => detail && { ...detail, archivedAt: res.archivedAt },
-      ),
+    onSuccess: (detail) => qc.setQueryData(queryKeys.postings.detail(detail.id), detail),
     onSettled: () => qc.invalidateQueries({ queryKey: queryKeys.postings.all }),
   })
 }

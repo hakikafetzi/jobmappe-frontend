@@ -99,7 +99,7 @@ describe('Stelle erfassen: Formular → Anfrage', () => {
       input: {
         newCompany: {
           name: 'Neu GmbH',
-          website: 'neu.de',
+          website: 'https://neu.de',
           street: 'Hauptstr. 1',
           postalCode: '60311',
           city: null,

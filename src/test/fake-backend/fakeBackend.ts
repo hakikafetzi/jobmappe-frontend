@@ -7,18 +7,17 @@ import type {
   ApplicationDetail,
   ApplicationPatch,
   ApplicationPriority,
-  ApplicationResponse,
   ApplicationStatus,
   CompanyCompact,
   CompanyDetail,
   CompanyRequest,
-  CompanyResponse,
+  CompanySummary,
   JobPostingArchiveRequest,
   JobPostingCompact,
   JobPostingDetail,
   JobPostingFilter,
   JobPostingRequest,
-  JobPostingResponse,
+  JobPostingSummary,
   JobPostingStatus,
   NoteCategory,
   NoteCategoryRequest,
@@ -29,7 +28,7 @@ import type {
 } from '../../api/types'
 import sampleSeed from './sampleSeed.json' with { type: 'json' }
 
-type CompanyRow = CompanyResponse
+type CompanyRow = CompanySummary
 type PostingRow = {
   id: string
   companyId: string
@@ -156,11 +155,10 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
     hasApplication: !!appFor(p.id),
     createdAt: p.createdAt,
   })
-  const postingResponse = ({ companyId: _c, createdAt: _d, ...p }: PostingRow): JobPostingResponse => p
+  const postingSummary = ({ companyId: _c, createdAt: _d, ...p }: PostingRow): JobPostingSummary => p
   const postingDetail = (p: PostingRow): JobPostingDetail => ({
-    ...postingResponse(p),
+    ...postingSummary(p),
     company: company(p.companyId)!,
-    hasApplication: !!appFor(p.id),
     applicationId: appFor(p.id)?.id ?? null,
     createdAt: p.createdAt,
   })
@@ -180,7 +178,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
     const p = posting(a.jobPostingId)!
     return {
       id: a.id,
-      jobPosting: postingResponse(p),
+      jobPosting: postingSummary(p),
       company: company(p.companyId)!,
       status: a.status,
       priority: a.priority,
@@ -188,9 +186,9 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
       appliedVia: a.appliedVia,
       portalUrl: a.portalUrl,
       closedAt: a.closedAt,
+      createdAt: a.createdAt,
     }
   }
-  const appResponse = ({ jobPostingId: _p, ...a }: ApplicationRow): ApplicationResponse => a
   const noteApplication = (n: NoteRow) => {
     const a = n.applicationId ? db.applications.find((x) => x.id === n.applicationId) : undefined
     const p = a && posting(a.jobPostingId)
@@ -221,17 +219,13 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
   })
   const notFound = problem(404, 'Resource not found', 'The requested resource was not found.')
   const conflict = (detail: string) => problem(409, 'Conflict', detail)
-  const serverError = problem(500, 'Internal server error', 'An unexpected error occurred.')
-  const invalidBody = problem(
-    400,
-    'Invalid request body',
-    'The request body is malformed or contains invalid values.',
-  )
+  const invalidBody = problem(400, 'Bad Request', 'The request body is malformed or contains invalid values.')
   const invalidParam = (name = 'id') =>
-    problem(400, 'Invalid request parameter', `The request contains an invalid value for '${name}'.`)
+    problem(400, 'Bad Request', `The request contains an invalid value for '${name}'.`)
   const invalidSort = (property: string) =>
     problem(400, 'Invalid sort property', `No property '${property}' found.`)
-  const endpointNotFound = problem(404, 'Endpoint not found', 'No endpoint found for this path.')
+  const endpointNotFound = problem(404, 'Not Found', 'No endpoint found for this path.')
+  const methodNotAllowed = problem(405, 'Method Not Allowed', 'This method is not supported for this path.')
   const invalidCombination = problem(
     400,
     'Invalid request combination',
@@ -244,25 +238,30 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
       : null
 
   /* ---------- Validierung (Bean Validation laut Vertrag) ---------- */
-  type Rule = { required?: boolean; max?: number }
-  /** Pflichtfelder dürfen nicht fehlen; vorhandene Strings nicht nur aus Leerzeichen bestehen. */
+  type Rule = { required?: boolean; max?: number; web?: boolean }
+  /**
+   * Pflichtfelder dürfen nicht fehlen; vorhandene Strings nicht nur aus Leerzeichen bestehen.
+   * `web`: Link mit http:// oder https:// ohne Leerzeichen (nach dem Trimmen).
+   */
   const validate = (body: object, rules: Record<string, Rule>): FieldErrors => {
     const errors: FieldErrors = {}
     const add = (field: string, message: string) => (errors[field] ??= []).push(message)
-    for (const [field, { required, max }] of Object.entries(rules)) {
+    for (const [field, { required, max, web }] of Object.entries(rules)) {
       const value: unknown = (body as Record<string, unknown>)[field]
       if (value == null) {
         if (required) add(field, `The ${field} is required`)
       } else if (blank(value)) add(field, `The ${field} must not be blank`)
       else if (max && typeof value === 'string' && value.length > max)
         add(field, `The ${field} must be at most ${max} characters`)
+      else if (web && typeof value === 'string' && !/^https?:\/\/\S+$/i.test(value.trim()))
+        add(field, `The ${field} must start with http:// or https://`)
     }
     return errors
   }
   const validateCompany = (b: CompanyRequest) =>
     validate(b, {
       name: { required: true, max: 255 },
-      website: { max: 255 },
+      website: { max: 255, web: true },
       street: { max: 255 },
       postalCode: { max: 20 },
       city: { max: 255 },
@@ -271,7 +270,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
     const errors = validate(b, {
       title: { required: true, max: 255 },
       location: { max: 255 },
-      url: { required: true, max: 1000 },
+      url: { required: true, max: 1000, web: true },
       status: { required: true },
     })
     if (b.publishedAt && b.publishedAt > today)
@@ -453,7 +452,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
           city: b.city ?? null,
         }
         db.companies.push(c)
-        return ok(c, 201)
+        return ok(companyDetail(c), 201)
       },
     ],
     [
@@ -470,7 +469,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         Object.assign(c, { website: null, street: null, postalCode: null, city: null }, b, {
           name: b.name.trim(),
         })
-        return ok(c)
+        return ok(companyDetail(c))
       },
     ],
     [
@@ -509,7 +508,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
           archivedAt: null,
         }
         db.postings.push(p)
-        return ok(postingResponse(p), 201)
+        return ok(postingDetail(p), 201)
       },
     ],
     [
@@ -549,7 +548,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         const { title, description, location, url, status, publishedAt } = b
         Object.assign(p, { title, description: description ?? null, location: location ?? null, url, status })
         p.publishedAt = publishedAt ?? null
-        return ok(postingResponse(p))
+        return ok(postingDetail(p))
       },
     ],
     [
@@ -566,7 +565,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         if (b.archived && appFor(p.id))
           return conflict('A job posting with an application cannot be archived.')
         p.archivedAt = b.archived ? today : null
-        return ok(postingResponse(p))
+        return ok(postingDetail(p))
       },
     ],
     [
@@ -589,7 +588,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
           createdAt: now(),
         }
         db.applications.push(a)
-        return ok(appResponse(a), 201)
+        return ok(appDetail(a), 201)
       },
     ],
     [
@@ -636,7 +635,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         )
           return invalidBody
         if (!a) return notFound
-        const invalid = validationProblem(validate(b, { portalUrl: { max: 1000 } }))
+        const invalid = validationProblem(validate(b, { portalUrl: { max: 1000, web: true } }))
         if (invalid) return invalid
         // Unerlaubter Wechsel: der ganze PATCH wird abgelehnt
         if (b.status && !canTransition(a.status, b.status))
@@ -655,7 +654,7 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
           if (b.status === 'APPLIED') a.appliedAt ??= today
           a.closedAt = CLOSED.has(b.status) ? (a.closedAt ?? today) : null
         }
-        return ok(appResponse(a))
+        return ok(appDetail(a))
       },
     ],
     [
@@ -737,7 +736,8 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         return { status: 204 }
       },
     ],
-    ['GET', /^\/note-categories$/, () => ok(db.categories)],
+    // Nach Name sortiert (Collation des Backends ist hier nicht nachgebaut)
+    ['GET', /^\/note-categories$/, () => ok(db.categories.toSorted((a, b) => a.name.localeCompare(b.name)))],
     [
       'GET',
       /^\/note-categories\/([^/]+)$/,
@@ -806,8 +806,8 @@ export function createFakeBackend(seed: Seed = sampleData(), today = SAMPLE_TODA
         if (!params.every((p) => UUID.test(p))) return invalidParam()
         return handler(params, body ?? {}, query)
       }
-      // Unbekannter Pfad: 404; nicht unterstützte Methode auf bekanntem Pfad: 500
-      return pathExists ? serverError : endpointNotFound
+      // Unbekannter Pfad: 404; nicht unterstützte Methode auf bekanntem Pfad: 405
+      return pathExists ? methodNotAllowed : endpointNotFound
     },
   }
 }

@@ -21,7 +21,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000001",
       "name": "Muster Finanz AG",
-      "website": "muster-finanz.example",
+      "website": "https://muster-finanz.example",
       "street": "Börsenplatz 61",
       "postalCode": "65760",
       "city": "Eschborn"
@@ -29,7 +29,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000002",
       "name": "Beispiel Energie AG",
-      "website": "beispiel-energie.example",
+      "website": "https://beispiel-energie.example",
       "street": "Energieweg 38",
       "postalCode": "60486",
       "city": "Frankfurt am Main"
@@ -37,7 +37,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000003",
       "name": "Musterflug AG",
-      "website": "musterflug.example",
+      "website": "https://musterflug.example",
       "street": "Flughafenstraße 178",
       "postalCode": "60547",
       "city": "Frankfurt am Main"
@@ -45,7 +45,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000004",
       "name": "Mustermann GmbH & Co. KG",
-      "website": "mustermann.example",
+      "website": "https://mustermann.example",
       "street": "Musterstraße 90",
       "postalCode": "60486",
       "city": "Frankfurt am Main"
@@ -53,7 +53,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000005",
       "name": "Beispielbank AG",
-      "website": "beispielbank.example",
+      "website": "https://beispielbank.example",
       "street": "Bankplatz 1",
       "postalCode": "60311",
       "city": "Frankfurt am Main"
@@ -61,7 +61,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000006",
       "name": "Musterportal GmbH",
-      "website": "musterportal.example",
+      "website": "https://musterportal.example",
       "street": "Portalstraße 62",
       "postalCode": "80636",
       "city": "München"
@@ -69,7 +69,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000007",
       "name": "Beispiel Consulting SE",
-      "website": "beispiel-consulting.example",
+      "website": "https://beispiel-consulting.example",
       "street": "Beratungsplatz 1",
       "postalCode": "44269",
       "city": "Dortmund"
@@ -77,7 +77,7 @@
     {
       "id": "00000000-0000-4000-8200-000000000008",
       "name": "Musterbank AG",
-      "website": "musterbank.example",
+      "website": "https://musterbank.example",
       "street": "Am Musterplatz 1",
       "postalCode": "60265",
       "city": "Frankfurt am Main"

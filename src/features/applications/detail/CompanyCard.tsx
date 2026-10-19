@@ -1,11 +1,11 @@
-import type { CompanyResponse } from '../../../api/types'
+import type { CompanySummary } from '../../../api/types'
 import { Address } from '../../../shared/ui/Address'
 import { InfoList } from '../../../shared/ui/InfoList'
 import { Panel } from '../../../shared/ui/Panel'
 import { WebsiteLink } from '../../../shared/ui/WebsiteLink'
 import styles from './SideCards.module.css'
 
-export function CompanyCard({ company }: { company: CompanyResponse }) {
+export function CompanyCard({ company }: { company: CompanySummary }) {
   return (
     <Panel title="Firma">
       <div className={styles.body}>

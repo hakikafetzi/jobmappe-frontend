@@ -58,7 +58,7 @@ describe('toCompanyRequest', () => {
     })
   })
 
-  it('speichert die Webseite wie eingegeben', () => {
+  it('ergänzt https:// an der Webseite (Backend verlangt ein Schema)', () => {
     expect(
       toCompanyRequest({
         name: 'Firma AG',
@@ -67,7 +67,7 @@ describe('toCompanyRequest', () => {
         postalCode: '',
         city: '',
       }),
-    ).toMatchObject({ body: { website: 'firma.example' } })
+    ).toMatchObject({ body: { website: 'https://firma.example' } })
   })
 
   it('übernimmt fehlende Angaben als leere Felder', () => {

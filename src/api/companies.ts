@@ -15,7 +15,6 @@ import type {
   CompanyDetail,
   CompanyListParams,
   CompanyRequest,
-  CompanyResponse,
   JobPostingCompact,
   Page,
   PageParams,
@@ -24,8 +23,8 @@ import type {
 export const companiesApi = {
   list: (params: CompanyListParams) => http.get<Page<CompanyCompact>>(withParams('/companies', params)),
   get: (id: string) => http.get<CompanyDetail>(`/companies/${seg(id)}`),
-  create: (body: CompanyRequest) => http.post<CompanyResponse>('/companies', body),
-  update: (id: string, body: CompanyRequest) => http.put<CompanyResponse>(`/companies/${seg(id)}`, body),
+  create: (body: CompanyRequest) => http.post<CompanyDetail>('/companies', body),
+  update: (id: string, body: CompanyRequest) => http.put<CompanyDetail>(`/companies/${seg(id)}`, body),
   postings: (id: string, params: PageParams) =>
     http.get<Page<JobPostingCompact>>(withParams(`/companies/${seg(id)}/job-postings`, params)),
 }

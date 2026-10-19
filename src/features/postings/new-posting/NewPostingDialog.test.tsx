@@ -25,7 +25,7 @@ describe('NewPostingDialog', () => {
     const { db } = currentBackend()
     const company = db.companies.find((c) => c.name === 'Neu GmbH')
     expect(company).toMatchObject({
-      website: 'neu.example',
+      website: 'https://neu.example',
       postalCode: '60311',
       city: 'Frankfurt am Main',
       street: null,

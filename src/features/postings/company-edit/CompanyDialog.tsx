@@ -1,7 +1,7 @@
 import { useId, useState } from 'react'
 import { saveCompanyMeta, useSaveCompany } from '../../../api/companies'
 import { serverFieldErrors } from '../../../api/errors'
-import type { CompanyResponse } from '../../../api/types'
+import type { CompanyDetail, CompanySummary } from '../../../api/types'
 import { Button } from '../../../shared/ui/Button'
 import { ModalDialog } from '../../../shared/ui/Dialog'
 import { Field, RequiredNote, TextInput } from '../../../shared/ui/Field'
@@ -19,10 +19,10 @@ import {
 
 type Props = {
   /** null = neue Firma anlegen */
-  company: CompanyResponse | null
+  company: CompanySummary | null
   onClose: () => void
   /** Nach dem Speichern, z. B. um die neue Firma zu öffnen */
-  onSaved?: (company: CompanyResponse) => void
+  onSaved?: (company: CompanyDetail) => void
 }
 
 /** Firma anlegen oder bearbeiten. */

@@ -23,16 +23,17 @@ export function apiErrorOf(error: unknown): ApiError | null {
 }
 
 /**
- * 404 „Endpoint not found“: Den Pfad gibt es im Backend nicht — ein Fehler im Frontend, kein
- * fehlender Eintrag. Wird wie ein Serverfehler behandelt.
+ * Fehler im Frontend, kein fehlender Eintrag: 404 „Not Found“ (den Pfad gibt es im Backend
+ * nicht), 405 (falsche Methode) und 415 (falscher Content-Type). Wird wie ein Serverfehler behandelt.
  */
-export function isEndpointMissing(error: unknown): boolean {
+export function isClientBug(error: unknown): boolean {
   const apiError = apiErrorOf(error)
-  return apiError?.status === 404 && apiError.title === 'Endpoint not found'
+  if (!apiError) return false
+  return (apiError.status === 404 && apiError.title === 'Not Found') || [405, 415].includes(apiError.status)
 }
 
-/** Status für die Auswertung; ein fehlender Endpunkt zählt als 500. */
-const statusOf = (error: unknown) => (isEndpointMissing(error) ? 500 : apiErrorOf(error)?.status)
+/** Status für die Auswertung; ein Fehler im Frontend zählt als 500. */
+const statusOf = (error: unknown) => (isClientBug(error) ? 500 : apiErrorOf(error)?.status)
 
 /** Deutscher Grund für einen fehlgeschlagenen Request. */
 export function errorReason(error: unknown): string {
@@ -56,7 +57,7 @@ export function isNotFound(error: unknown): boolean {
   return status === 400 || status === 404
 }
 
-/** Client-Fehler (4xx, auch ein fehlender Endpunkt) werden nicht wiederholt; Netzwerk- und Serverfehler schon. */
+/** Client-Fehler (4xx, auch Fehler im Frontend wie ein fehlender Endpunkt) werden nicht wiederholt; Netzwerk- und Serverfehler schon. */
 export function isRetryable(error: unknown): boolean {
   const status = apiErrorOf(error)?.status
   return status === undefined || status === 0 || status >= 500

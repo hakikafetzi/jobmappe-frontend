@@ -3,7 +3,7 @@ import { ApiError } from './client'
 import {
   apiErrorOf,
   errorReason,
-  isEndpointMissing,
+  isClientBug,
   isHandledInline,
   isNotFound,
   isRetryable,
@@ -47,13 +47,21 @@ describe('errors', () => {
     expect(isNotFound(status(500))).toBe(false)
   })
 
-  it('behandelt „Endpoint not found“ als allgemeinen Fehler, nicht als fehlenden Eintrag', () => {
-    const missing = new ApiError(404, 'x', { title: 'Endpoint not found' })
-    expect(isEndpointMissing(missing)).toBe(true)
-    expect(isEndpointMissing(new ApiError(404, 'x', { title: 'Resource not found' }))).toBe(false)
+  it('behandelt 404 „Not Found“ als allgemeinen Fehler, nicht als fehlenden Eintrag', () => {
+    const missing = new ApiError(404, 'x', { title: 'Not Found' })
+    expect(isClientBug(missing)).toBe(true)
+    expect(isClientBug(new ApiError(404, 'x', { title: 'Resource not found' }))).toBe(false)
     expect(isNotFound(missing)).toBe(false)
     expect(isRetryable(missing)).toBe(false)
     expect(errorReason(missing)).toBe('Bitte später erneut versuchen.')
+  })
+
+  it('behandelt 405 und 415 als Fehler im Frontend', () => {
+    for (const s of [405, 415]) {
+      expect(isClientBug(status(s))).toBe(true)
+      expect(isRetryable(status(s))).toBe(false)
+      expect(errorReason(status(s))).toBe('Bitte später erneut versuchen.')
+    }
   })
 
   it('übersetzt Feldfehler und 409 in deutsche Texte', () => {

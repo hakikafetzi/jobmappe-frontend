@@ -1,4 +1,4 @@
-// DTOs exakt nach dem API-Vertrag des Backends (v1, paginierte Listen).
+// DTOs exakt nach dem API-Vertrag des Backends (v1, Commit 77c61dc, paginierte Listen).
 
 export type JobPostingStatus = 'ACTIVE' | 'INACTIVE'
 
@@ -94,7 +94,8 @@ export type CompanyDetail = {
   jobsCount: number
 }
 
-export type CompanyResponse = {
+/** Eingebettet in JobPostingDetail und ApplicationDetail. */
+export type CompanySummary = {
   id: string
   name: string
   website: string | null
@@ -124,13 +125,12 @@ export type JobPostingCompact = {
 
 export type JobPostingDetail = {
   id: string
-  company: CompanyResponse
+  company: CompanySummary
   title: string
   description: string | null
   location: string | null
   url: string
   status: JobPostingStatus
-  hasApplication: boolean
   /** Bewerbung zu dieser Stelle, `null` ohne Bewerbung. */
   applicationId: string | null
   publishedAt: string | null
@@ -139,7 +139,8 @@ export type JobPostingDetail = {
   archivedAt: string | null
 }
 
-export type JobPostingResponse = {
+/** Eingebettet in ApplicationDetail. */
+export type JobPostingSummary = {
   id: string
   title: string
   description: string | null
@@ -177,18 +178,8 @@ export type ApplicationCompact = {
 
 export type ApplicationDetail = {
   id: string
-  jobPosting: JobPostingResponse
-  company: CompanyResponse
-  status: ApplicationStatus
-  priority: ApplicationPriority
-  appliedAt: string | null
-  appliedVia: ApplicationChannel | null
-  portalUrl: string | null
-  closedAt: string | null
-}
-
-export type ApplicationResponse = {
-  id: string
+  jobPosting: JobPostingSummary
+  company: CompanySummary
   status: ApplicationStatus
   priority: ApplicationPriority
   appliedAt: string | null

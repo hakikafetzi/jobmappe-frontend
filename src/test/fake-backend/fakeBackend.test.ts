@@ -26,7 +26,7 @@ describe('Fake-Backend bildet den Vertrag ab', () => {
     const res = createFakeBackend().handle('PATCH', `/applications/${seedId('application', 1)}`, {
       appliedVia: 'LinkedIn',
     })
-    expect(res).toMatchObject({ status: 400, body: { title: 'Invalid request body' } })
+    expect(res).toMatchObject({ status: 400, body: { title: 'Bad Request' } })
   })
 
   it('archiviert nur ohne Bewerbung und startet keine Bewerbung für archivierte Stellen', () => {
@@ -71,11 +71,11 @@ describe('Fake-Backend bildet den Vertrag ab', () => {
     })
     expect(list('?applicationId=abc')).toMatchObject({
       status: 400,
-      body: { title: 'Invalid request parameter' },
+      body: { title: 'Bad Request' },
     })
     expect(list('?sort=content,asc')).toMatchObject({ status: 400, body: { title: 'Invalid sort property' } })
     expect(backend.handle('GET', `/applications/${app}/notes`).body).toMatchObject({
-      title: 'Endpoint not found',
+      title: 'Not Found',
     })
   })
 
@@ -134,7 +134,7 @@ describe('Fake-Backend bildet den Vertrag ab', () => {
     expect(total('/applications?status=WAITING')).toBe(waiting)
 
     expect(backend.handle('GET', '/job-postings?filter=open').body).toMatchObject({
-      title: 'Invalid request parameter',
+      title: 'Bad Request',
     })
     expect(backend.handle('GET', '/applications?priority=URGENT').status).toBe(400)
     expect(backend.handle('GET', '/applications?sort=jobTitle')).toMatchObject({
@@ -185,12 +185,58 @@ describe('Fake-Backend bildet den Vertrag ab', () => {
       })
   })
 
-  it('meldet unbekannte Pfade als 404 „Endpoint not found“', () => {
+  it('meldet unbekannte Pfade als 404 „Not Found“ und falsche Methoden als 405', () => {
     const backend = createFakeBackend()
     expect(backend.handle('GET', '/gibt-es-nicht')).toMatchObject({
       status: 404,
-      body: { title: 'Endpoint not found' },
+      body: { title: 'Not Found' },
     })
-    expect(backend.handle('DELETE', '/companies').status).toBe(500)
+    expect(backend.handle('DELETE', '/companies')).toMatchObject({
+      status: 405,
+      body: { title: 'Method Not Allowed' },
+    })
+  })
+
+  it('verlangt Links mit http:// oder https://', () => {
+    const backend = createFakeBackend()
+    expect(backend.handle('POST', '/companies', { name: 'Neu GmbH', website: 'neu.example' })).toMatchObject({
+      status: 400,
+      body: { title: 'Validation failed', errors: { website: [expect.any(String)] } },
+    })
+    const app = `/applications/${seedId('application', 1)}`
+    expect(backend.handle('PATCH', app, { portalUrl: 'ftp://neu.example' }).status).toBe(400)
+    expect(backend.handle('PATCH', app, { portalUrl: 'https://jobs.neu.example' }).status).toBe(200)
+  })
+
+  it('liefert nach Mutationen das Detail', () => {
+    const backend = createFakeBackend()
+    const company = backend.handle('POST', '/companies', { name: 'Detail GmbH' })
+    expect(company).toMatchObject({ status: 201, body: { jobsCount: 0 } })
+    const companyId = (company.body as { id: string }).id
+    const posting = backend.handle('POST', `/companies/${companyId}/job-postings`, {
+      title: 'Entwickler',
+      url: 'https://detail.example/jobs/1',
+      status: 'ACTIVE',
+    })
+    expect(posting).toMatchObject({
+      status: 201,
+      body: { company: { id: companyId }, applicationId: null, archivedAt: null },
+    })
+    expect(posting.body).not.toHaveProperty('hasApplication')
+    const postingId = (posting.body as { id: string }).id
+    const app = backend.handle('POST', `/job-postings/${postingId}/applications`)
+    expect(app).toMatchObject({
+      status: 201,
+      body: { status: 'IN_PROGRESS', jobPosting: { id: postingId }, company: { id: companyId } },
+    })
+    expect((app.body as { createdAt: string }).createdAt).toBeTruthy()
+  })
+
+  it('liefert Ordner nach Name sortiert', () => {
+    const backend = createFakeBackend()
+    backend.handle('POST', '/note-categories', { name: 'AAA zuerst' })
+    const names = (backend.handle('GET', '/note-categories').body as { name: string }[]).map((c) => c.name)
+    expect(names[0]).toBe('AAA zuerst')
+    expect(names).toEqual(names.toSorted((a, b) => a.localeCompare(b)))
   })
 })

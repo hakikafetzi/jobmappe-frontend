@@ -1,4 +1,4 @@
-import type { CompanyRequest, CompanyResponse } from '../../../api/types'
+import type { CompanyRequest, CompanySummary } from '../../../api/types'
 import { orNull } from '../../../shared/lib/format'
 import { INVALID_POSTAL_CODE, isPostalCode } from '../../../shared/lib/postalCode'
 import { INVALID_URL, isWebUrl, normalizeUrl } from '../../../shared/lib/url'
@@ -31,7 +31,7 @@ export const EMPTY_COMPANY: CompanyFormValues = {
   city: '',
 }
 
-export function toFormValues(c: CompanyResponse): CompanyFormValues {
+export function toFormValues(c: CompanySummary): CompanyFormValues {
   return {
     name: c.name,
     website: c.website ?? '',
@@ -71,7 +71,7 @@ export function toCompanyRequest(
   return {
     body: {
       name: v.name.trim(),
-      website: orNull(v.website),
+      website: orNull(normalizeUrl(v.website)),
       street: orNull(v.street),
       postalCode: orNull(v.postalCode),
       city: orNull(v.city),

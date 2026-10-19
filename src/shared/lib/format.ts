@@ -65,7 +65,7 @@ export function initials(name: string): string {
   return result || name.charAt(0).toUpperCase() || '?'
 }
 
-/** Das Backend speichert Webseiten mit oder ohne Schema. */
+/** Neue Webseiten haben immer ein Schema; ältere Einträge im Backend evtl. nicht. */
 export function websiteHref(site: string): string {
   return /^https?:\/\//i.test(site) ? site : `https://${site}`
 }
