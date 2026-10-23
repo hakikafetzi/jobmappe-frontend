@@ -1,0 +1,28 @@
+# Dependencies and build output are recreated inside the image
+node_modules
+dist
+dist-ssr
+coverage
+
+# VCS and CI
+.git
+.github
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
+*.suo
+*.sw?
+
+# Local secrets and logs
+.env*
+*.log
+logs
+
+# Documentation is not needed for the build
+docs
+*.md
+
+Dockerfile
+.dockerignore
