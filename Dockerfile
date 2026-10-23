@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 
 # Build stage: Node LTS matching @types/node. Tests and lint run in CI, not here.
-FROM node:24-alpine AS build
+# The build output is static files, so build on the native platform instead of under QEMU emulation.
+FROM --platform=$BUILDPLATFORM node:24-alpine AS build
 WORKDIR /app
 
 # Install dependencies first, so this layer is reused as long as the lockfile does not change.
