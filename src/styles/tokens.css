@@ -36,8 +36,8 @@
   --r-2xl: 14px;
   --r-pill: 999px;
 
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   --wrap: 1280px;
   --topbar-h: 60px;
