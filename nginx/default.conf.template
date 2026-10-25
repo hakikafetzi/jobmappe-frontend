@@ -1,6 +1,21 @@
 # Rendered by the nginx image's entrypoint (envsubst) into /etc/nginx/conf.d/default.conf.
 # Only defined environment variables are replaced, so nginx variables like $host stay untouched.
 
+# The backend builds absolute URLs (Location on 201, the Swagger UI server URL, redirects) from the
+# X-Forwarded-* headers, so they must carry the address the browser used. Values from an outer proxy
+# (Nginx Proxy Manager, Cloudflare Tunnel) win; otherwise our own scheme and $http_host, which keeps the
+# port (localhost:8080) unlike $host. Incoming X-Forwarded-* headers are trusted on purpose: at worst a
+# client fakes the URLs in its own response, and the backend is only reachable through this nginx.
+map $http_x_forwarded_proto $forwarded_proto {
+    default $http_x_forwarded_proto;
+    ""      $scheme;
+}
+
+map $http_x_forwarded_host $forwarded_host {
+    default $http_x_forwarded_host;
+    ""      $http_host;
+}
+
 server {
     listen 8080;
     server_name _;
