@@ -19,18 +19,25 @@ server {
     # Resolve the backend per request (DNS from /etc/resolv.conf), so nginx also starts while the
     # backend is down or not yet created.
     resolver ${NGINX_LOCAL_RESOLVERS} valid=10s;
+    set $backend ${BACKEND_URL};
 
-    # Only the API is proxied; /actuator, /swagger-ui and /v3/api-docs stay unreachable from here.
-    # proxy_pass with a variable and no URI forwards the request path unchanged (/api/...).
+    # The API, Swagger UI (/swagger-ui.html redirects to /swagger-ui/index.html) and the OpenAPI docs
+    # (incl. /v3/api-docs/swagger-config) are proxied with their path unchanged; /actuator stays
+    # unreachable from here and falls through to the SPA fallback.
     location /api/ {
-        set $backend ${BACKEND_URL};
-        proxy_pass $backend;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
+        include /etc/nginx/snippets/proxy-backend.conf;
+    }
+
+    location = /swagger-ui.html {
+        include /etc/nginx/snippets/proxy-backend.conf;
+    }
+
+    location /swagger-ui/ {
+        include /etc/nginx/snippets/proxy-backend.conf;
+    }
+
+    location /v3/api-docs {
+        include /etc/nginx/snippets/proxy-backend.conf;
     }
 
     # Hashed build output never changes under the same name; missing files must 404, not fall back to
