@@ -91,17 +91,17 @@ Working with an AI agent is fast, but only as good as its guidance: clear writte
 
 ## Tech stack
 
-| Area | Tools |
-| --- | --- |
-| UI | [React 19](https://react.dev), [TypeScript](https://www.typescriptlang.org) (strict) |
-| Build | [Vite 8](https://vite.dev) |
-| Routing | [React Router 8](https://reactrouter.com) (data router, lazy-loaded routes) |
-| Server state | [TanStack Query 5](https://tanstack.com/query) |
-| Styling | CSS Modules with shared design tokens (light and dark theme), self-hosted fonts via [Fontsource](https://fontsource.org) |
-| Testing | [Vitest](https://vitest.dev), [Testing Library](https://testing-library.com), [MSW](https://mswjs.io) |
-| Code quality | [Oxlint](https://oxc.rs), [Prettier](https://prettier.io) |
-| Delivery | [nginx](https://nginx.org) in Docker, GitHub Actions |
-| Development | [Claude Code](https://claude.com/claude-code) (AI-assisted, see [above](#ai-assisted-development)) |
+| Area         | Tools                                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| UI           | [React 19](https://react.dev), [TypeScript](https://www.typescriptlang.org) (strict)                                     |
+| Build        | [Vite 8](https://vite.dev)                                                                                               |
+| Routing      | [React Router 8](https://reactrouter.com) (data router, lazy-loaded routes)                                              |
+| Server state | [TanStack Query 5](https://tanstack.com/query)                                                                           |
+| Styling      | CSS Modules with shared design tokens (light and dark theme), self-hosted fonts via [Fontsource](https://fontsource.org) |
+| Testing      | [Vitest](https://vitest.dev), [Testing Library](https://testing-library.com), [MSW](https://mswjs.io)                    |
+| Code quality | [Oxlint](https://oxc.rs), [Prettier](https://prettier.io)                                                                |
+| Delivery     | [nginx](https://nginx.org) in Docker, GitHub Actions                                                                     |
+| Development  | [Claude Code](https://claude.com/claude-code) (AI-assisted, see [above](#ai-assisted-development))                       |
 
 ## Architecture
 
@@ -151,9 +151,9 @@ The app runs on [http://localhost:5173](http://localhost:5173). During developme
 
 ### Configuration
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `VITE_API_BASE_URL` | `/api` | Base URL of the API, e.g. when frontend and backend run on different hosts. Not needed with the Docker image, which proxies `/api` itself. |
+| Variable            | Default | Description                                                                                                                                |
+| ------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `VITE_API_BASE_URL` | `/api`  | Base URL of the API, e.g. when frontend and backend run on different hosts. Not needed with the Docker image, which proxies `/api` itself. |
 
 ### Production build
 
@@ -164,17 +164,17 @@ npm run preview   # serves the production build locally
 
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run build` | Type-check (`tsc -b`) and create a production build |
-| `npm run preview` | Serve the production build locally |
-| `npm run check` | Format check, lint, build and unit tests — **run before every commit** |
-| `npm test` | Run unit and component tests once |
-| `npm run test:watch` | Run unit and component tests in watch mode |
-| `npm run lint` | Lint with Oxlint |
-| `npm run format` | Format all files with Prettier |
-| `npm run format:check` | Check formatting without writing |
+| Command                | Description                                                            |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `npm run dev`          | Start the development server                                           |
+| `npm run build`        | Type-check (`tsc -b`) and create a production build                    |
+| `npm run preview`      | Serve the production build locally                                     |
+| `npm run check`        | Format check, lint, build and unit tests — **run before every commit** |
+| `npm test`             | Run unit and component tests once                                      |
+| `npm run test:watch`   | Run unit and component tests in watch mode                             |
+| `npm run lint`         | Lint with Oxlint                                                       |
+| `npm run format`       | Format all files with Prettier                                         |
+| `npm run format:check` | Check formatting without writing                                       |
 
 ## Testing
 
@@ -203,8 +203,8 @@ The image builds the app with Node and serves it with **nginx** as a non-root us
 - sets basic security headers and compresses text responses;
 - answers health checks on `/healthz`.
 
-| Variable | Default | Description |
-| --- | --- | --- |
+| Variable      | Default               | Description                                                                                  |
+| ------------- | --------------------- | -------------------------------------------------------------------------------------------- |
 | `BACKEND_URL` | `http://backend:8080` | Address of the backend, resolved per request, so nginx also starts while the backend is down |
 
 The nginx configuration is in [`nginx/`](nginx). Build the image locally:
