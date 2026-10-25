@@ -12,15 +12,16 @@ RUN --mount=type=cache,target=/root/.npm npm ci
 COPY . .
 RUN npm run build
 
-# Runtime stage: nginx as a non-root user on port 8080, serving the static build and proxying /api.
+# Runtime stage: nginx as a non-root user on port 8080, serving the static build and proxying the backend.
 FROM nginxinc/nginx-unprivileged:1.30-alpine
 
-# Backend address for the /api proxy; the entrypoint fills NGINX_LOCAL_RESOLVERS from /etc/resolv.conf.
+# Backend address for the proxy; the entrypoint fills NGINX_LOCAL_RESOLVERS from /etc/resolv.conf.
 ENV BACKEND_URL=http://backend:8080 \
     NGINX_ENTRYPOINT_LOCAL_RESOLVERS=1
 
 COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
 COPY nginx/security-headers.conf /etc/nginx/snippets/security-headers.conf
+COPY nginx/proxy-backend.conf /etc/nginx/snippets/proxy-backend.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 8080
